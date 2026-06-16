@@ -1,0 +1,34 @@
+// package.json for Electron
+{
+  "name": "hummingbird-erp",
+  "version": "2.0.0",
+  "description": "Hummingbird Clothing ERP - FujiSan Lanka Pvt Ltd",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder"
+  },
+  "author": "FujiSan Lanka Pvt Ltd",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "build": {
+    "appId": "com.hummingbird.erp",
+    "productName": "Hummingbird Clothing ERP",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}
