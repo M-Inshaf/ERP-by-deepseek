@@ -9,7 +9,6 @@ class StorageEngine {
         this.initializeDatabase();
     }
 
-    // Initialize database structure
     initializeDatabase() {
         const defaultData = {
             customers: [],
@@ -41,7 +40,6 @@ class StorageEngine {
             }
         };
 
-        // Initialize each collection if not exists
         Object.keys(defaultData).forEach(key => {
             if (!localStorage.getItem(`${this.dbName}_${key}`)) {
                 localStorage.setItem(`${this.dbName}_${key}`, JSON.stringify(defaultData[key]));
@@ -49,19 +47,16 @@ class StorageEngine {
         });
     }
 
-    // Get data from a collection
     getCollection(collection) {
         const data = localStorage.getItem(`${this.dbName}_${collection}`);
         return data ? JSON.parse(data) : [];
     }
 
-    // Get a single item by ID
     getItem(collection, id) {
         const items = this.getCollection(collection);
         return items.find(item => item.id === id) || null;
     }
 
-    // Add item to collection
     addItem(collection, item) {
         const items = this.getCollection(collection);
         const newItem = {
@@ -75,7 +70,6 @@ class StorageEngine {
         return newItem;
     }
 
-    // Update item in collection
     updateItem(collection, id, updates) {
         const items = this.getCollection(collection);
         const index = items.findIndex(item => item.id === id);
@@ -91,7 +85,6 @@ class StorageEngine {
         return null;
     }
 
-    // Delete item from collection
     deleteItem(collection, id) {
         const items = this.getCollection(collection);
         const filtered = items.filter(item => item.id !== id);
@@ -99,11 +92,9 @@ class StorageEngine {
         return true;
     }
 
-    // Query items with filters
     queryItems(collection, filters = {}) {
         let items = this.getCollection(collection);
 
-        // Apply search filter
         if (filters.search) {
             const searchTerm = filters.search.toLowerCase();
             items = items.filter(item => {
@@ -119,7 +110,6 @@ class StorageEngine {
             });
         }
 
-        // Apply date range filter
         if (filters.dateFrom || filters.dateTo) {
             items = items.filter(item => {
                 const itemDate = new Date(item.createdAt || item.date);
@@ -129,7 +119,6 @@ class StorageEngine {
             });
         }
 
-        // Apply custom field filters
         Object.keys(filters).forEach(key => {
             if (key !== 'search' && key !== 'dateFrom' && key !== 'dateTo' && filters[key]) {
                 items = items.filter(item => {
@@ -144,26 +133,22 @@ class StorageEngine {
         return items;
     }
 
-    // Generate auto Badge ID for Sub Garments
     generateBadgeId() {
         const settings = this.getCollection('settings');
         const year = new Date().getFullYear();
         const nextNumber = settings.lastBadgeNumber + 1;
         const badgeId = `${settings.badgePrefix}-${year}-${String(nextNumber).padStart(6, '0')}`;
         
-        // Update last badge number
         settings.lastBadgeNumber = nextNumber;
         localStorage.setItem(`${this.dbName}_settings`, JSON.stringify(settings));
         
         return badgeId;
     }
 
-    // Get settings
     getSettings() {
         return this.getCollection('settings');
     }
 
-    // Update settings
     updateSettings(updates) {
         const settings = this.getSettings();
         const updated = { ...settings, ...updates };
@@ -171,7 +156,6 @@ class StorageEngine {
         return updated;
     }
 
-    // Backup entire database
     backup() {
         const backup = {};
         const collections = [
@@ -199,7 +183,6 @@ class StorageEngine {
         return backup;
     }
 
-    // Restore database from backup
     restore(backupFile) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -221,12 +204,10 @@ class StorageEngine {
         });
     }
 
-    // Generate unique ID
     generateId() {
         return Date.now().toString(36) + Math.random().toString(36).substr(2);
     }
 
-    // Clear all data (dangerous!)
     clearAll() {
         Object.keys(localStorage).forEach(key => {
             if (key.startsWith(this.dbName)) {
@@ -236,5 +217,4 @@ class StorageEngine {
     }
 }
 
-// Create global storage instance
 const db = new StorageEngine();
