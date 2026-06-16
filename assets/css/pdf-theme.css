@@ -1,0 +1,185 @@
+/* ============================================
+   HUMMINGBIRD ERP - PDF GENERATION THEMES
+   ============================================ */
+
+/* PDF uses these classes to style generated documents */
+/* Applied via jsPDF/html2canvas or print-to-PDF */
+
+.pdf-document {
+    font-family: 'Inter', 'Helvetica', 'Arial', sans-serif;
+    color: #1a1a1a;
+    line-height: 1.5;
+    padding: 0;
+}
+
+.pdf-header {
+    padding: 20px 0;
+    border-bottom: 3px solid #1a56db;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.pdf-header .company-logo {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+.pdf-header .company-name {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1a1a1a;
+}
+
+.pdf-header .document-title {
+    font-size: 16px;
+    color: #1a56db;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.pdf-header .document-number {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.pdf-watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 80px;
+    color: rgba(0, 0, 0, 0.03);
+    font-weight: 900;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: -1;
+}
+
+.pdf-meta-table {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 11px;
+}
+
+.pdf-meta-table td {
+    padding: 4px 8px;
+    vertical-align: top;
+}
+
+.pdf-meta-table td:first-child {
+    font-weight: 700;
+    width: 120px;
+    color: #555;
+}
+
+.pdf-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 10px;
+}
+
+.pdf-table th {
+    background: #1a56db;
+    color: white;
+    padding: 8px 10px;
+    font-weight: 700;
+    text-align: left;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pdf-table td {
+    padding: 6px 10px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.pdf-table tr:nth-child(even) td {
+    background: #f9fafb;
+}
+
+.pdf-table .text-right {
+    text-align: right;
+}
+
+.pdf-table .total-row td {
+    font-weight: 700;
+    border-top: 2px solid #1a1a1a;
+    background: #f0f4ff;
+}
+
+.pdf-summary-cards {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.pdf-summary-card {
+    flex: 1;
+    padding: 12px;
+    background: #f0f4ff;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    text-align: center;
+}
+
+.pdf-summary-card .card-label {
+    font-size: 8px;
+    text-transform: uppercase;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+.pdf-summary-card .card-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.pdf-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 20px;
+    border-top: 1px solid #e5e7eb;
+    font-size: 8px;
+    color: #999;
+    display: flex;
+    justify-content: space-between;
+}
+
+.pdf-signatures {
+    display: flex;
+    gap: 40px;
+    margin-top: 40px;
+    padding-top: 20px;
+}
+
+.pdf-signature-block {
+    flex: 1;
+    text-align: center;
+}
+
+.pdf-signature-line {
+    border-bottom: 1px solid #1a1a1a;
+    margin-bottom: 6px;
+    padding-bottom: 20px;
+}
+
+.pdf-signature-label {
+    font-size: 10px;
+    color: #666;
+}
+
+.pdf-page-number {
+    text-align: center;
+    font-size: 8px;
+    color: #999;
+    margin-top: 10px;
+}
