@@ -141,133 +141,133 @@
             </div>
             
             <nav class="sidebar-nav">
-                <ul class="nav-list">
-                    <!-- Dashboard -->
-                    <li class="nav-item active" data-module="dashboard">
-                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('dashboard');">
-                            <i class="fas fa-th-large"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Customers -->
-                    <li class="nav-item" data-module="customers">
-                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('customers');">
-                            <i class="fas fa-users"></i>
-                            <span>Customers</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Suppliers -->
-                    <li class="nav-item" data-module="suppliers">
-                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('suppliers');">
-                            <i class="fas fa-truck"></i>
-                            <span>Suppliers</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Inventory -->
-                    <li class="nav-item" data-module="inventory">
-                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('inventory');">
-                            <i class="fas fa-boxes"></i>
-                            <span>Inventory</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Materials (Submenu) -->
-                    <li class="nav-item has-submenu" data-module="materials">
-                        <a href="#" onclick="toggleSubmenu(event, 'materials-submenu'); return false;">
-                            <i class="fas fa-layer-group"></i>
-                            <span>Materials</span>
-                            <i class="fas fa-chevron-down submenu-arrow"></i>
-                        </a>
-                        <ul class="submenu" id="materials-submenu">
-                            <li><a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('fabric');">Fabric Management</a></li>
-                            <li><a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('accessories');">Accessories</a></li>
-                        </ul>
-                    </li>
-                    
-                    <!-- Sub Garments -->
-                    <li class="nav-item" data-module="sub-garments">
-                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('sub-garments');">
-                            <i class="fas fa-tshirt"></i>
-                            <span>Sub Garments</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Production -->
-                    <li class="nav-item" data-module="production">
-                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('production');">
-                            <i class="fas fa-industry"></i>
-                            <span>Production</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Finishing -->
-                    <li class="nav-item" data-module="finishing">
-                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('finishing');">
-                            <i class="fas fa-check-double"></i>
-                            <span>Finishing</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Payments -->
-                    <li class="nav-item" data-module="payments">
-                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('payments');">
-                            <i class="fas fa-money-bill-wave"></i>
-                            <span>Payments</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Ledger -->
-                    <li class="nav-item" data-module="ledger">
-                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('ledger');">
-                            <i class="fas fa-book"></i>
-                            <span>Ledger</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Expenses -->
-                    <li class="nav-item" data-module="expenses">
-                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('expenses');">
-                            <i class="fas fa-receipt"></i>
-                            <span>Expenses</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Cheques -->
-                    <li class="nav-item" data-module="cheques">
-                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('cheques');">
-                            <i class="fas fa-money-check"></i>
-                            <span>Cheques</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Staff -->
-                    <li class="nav-item" data-module="staff">
-                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('staff');">
-                            <i class="fas fa-user-tie"></i>
-                            <span>Staff</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Reports -->
-                    <li class="nav-item" data-module="reports">
-                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('reports');">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Reports</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Settings -->
-    <li class="nav-item" data-module="settings">
-    <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('settings');">
-        <i class="fas fa-cog"></i>
-        <span>Settings</span>
-    </a>
-</li>
-                </ul>
-            </nav>
+    <ul class="nav-list">
+        <!-- Dashboard -->
+        <li class="nav-item active" data-module="dashboard">
+            <a href="#" data-nav="dashboard">
+                <i class="fas fa-th-large"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        
+        <!-- Customers -->
+        <li class="nav-item" data-module="customers">
+            <a href="#" data-nav="customers">
+                <i class="fas fa-users"></i>
+                <span>Customers</span>
+            </a>
+        </li>
+        
+        <!-- Suppliers -->
+        <li class="nav-item" data-module="suppliers">
+            <a href="#" data-nav="suppliers">
+                <i class="fas fa-truck"></i>
+                <span>Suppliers</span>
+            </a>
+        </li>
+        
+        <!-- Inventory -->
+        <li class="nav-item" data-module="inventory">
+            <a href="#" data-nav="inventory">
+                <i class="fas fa-boxes"></i>
+                <span>Inventory</span>
+            </a>
+        </li>
+        
+        <!-- Materials (Submenu) -->
+        <li class="nav-item has-submenu" data-module="materials">
+            <a href="#" data-nav="materials" class="submenu-toggle">
+                <i class="fas fa-layer-group"></i>
+                <span>Materials</span>
+                <i class="fas fa-chevron-down submenu-arrow"></i>
+            </a>
+            <ul class="submenu" id="materials-submenu">
+                <li><a href="#" data-nav="fabric">Fabric Management</a></li>
+                <li><a href="#" data-nav="accessories">Accessories</a></li>
+            </ul>
+        </li>
+        
+        <!-- Sub Garments -->
+        <li class="nav-item" data-module="sub-garments">
+            <a href="#" data-nav="sub-garments">
+                <i class="fas fa-tshirt"></i>
+                <span>Sub Garments</span>
+            </a>
+        </li>
+        
+        <!-- Production -->
+        <li class="nav-item" data-module="production">
+            <a href="#" data-nav="production">
+                <i class="fas fa-industry"></i>
+                <span>Production</span>
+            </a>
+        </li>
+        
+        <!-- Finishing -->
+        <li class="nav-item" data-module="finishing">
+            <a href="#" data-nav="finishing">
+                <i class="fas fa-check-double"></i>
+                <span>Finishing</span>
+            </a>
+        </li>
+        
+        <!-- Payments -->
+        <li class="nav-item" data-module="payments">
+            <a href="#" data-nav="payments">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Payments</span>
+            </a>
+        </li>
+        
+        <!-- Ledger -->
+        <li class="nav-item" data-module="ledger">
+            <a href="#" data-nav="ledger">
+                <i class="fas fa-book"></i>
+                <span>Ledger</span>
+            </a>
+        </li>
+        
+        <!-- Expenses -->
+        <li class="nav-item" data-module="expenses">
+            <a href="#" data-nav="expenses">
+                <i class="fas fa-receipt"></i>
+                <span>Expenses</span>
+            </a>
+        </li>
+        
+        <!-- Cheques -->
+        <li class="nav-item" data-module="cheques">
+            <a href="#" data-nav="cheques">
+                <i class="fas fa-money-check"></i>
+                <span>Cheques</span>
+            </a>
+        </li>
+        
+        <!-- Staff -->
+        <li class="nav-item" data-module="staff">
+            <a href="#" data-nav="staff">
+                <i class="fas fa-user-tie"></i>
+                <span>Staff</span>
+            </a>
+        </li>
+        
+        <!-- Reports -->
+        <li class="nav-item" data-module="reports">
+            <a href="#" data-nav="reports">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </a>
+        </li>
+        
+        <!-- Settings -->
+        <li class="nav-item" data-module="settings">
+            <a href="#" data-nav="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </li>
+    </ul>
+</nav>
             
             <div class="sidebar-footer">
     <div class="user-info">
