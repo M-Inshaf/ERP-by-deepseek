@@ -10,6 +10,13 @@
     --sidebar-collapsed-width: 70px;
     --topbar-height: 70px;
     
+    /* Mobile Breakpoints */
+    --mobile: 480px;
+    --tablet: 768px;
+    --laptop: 1024px;
+    --desktop: 1280px;
+    --wide: 1536px;
+    
     /* Typography */
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --font-size-xs: 0.75rem;
@@ -427,6 +434,48 @@ input, select, textarea {
     color: var(--text-primary);
 }
 
+/* Global Search */
+.topbar-center {
+    flex: 1;
+    max-width: 400px;
+    margin: 0 var(--spacing-xl);
+}
+
+.global-search {
+    position: relative;
+    width: 100%;
+}
+
+.global-search i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
+}
+
+.global-search input {
+    width: 100%;
+    padding: 10px 16px 10px 40px;
+    border: 2px solid transparent;
+    border-radius: var(--radius-full);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-base);
+}
+
+.global-search input:focus {
+    background: var(--input-bg);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 4px var(--accent-light);
+}
+
+.global-search input::placeholder {
+    color: var(--text-tertiary);
+}
+
 .topbar-right {
     display: flex;
     align-items: center;
@@ -495,6 +544,88 @@ input, select, textarea {
     overflow-y: auto;
     padding: var(--spacing-xl);
     background: var(--bg-primary);
+}
+
+/* Module Header */
+.module-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-xl);
+}
+
+.module-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.module-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+/* Filter Bar */
+.filter-bar {
+    margin-bottom: var(--spacing-lg);
+    padding: 16px 20px;
+}
+
+.filter-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.filter-group .form-input {
+    width: auto;
+    min-width: 160px;
+}
+
+.filter-separator {
+    color: var(--text-tertiary);
+    font-size: var(--font-size-sm);
+}
+
+.filter-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-left: auto;
+}
+
+.filter-tags {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: var(--accent-light);
+    color: var(--accent-color);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+}
+
+.filter-tag i {
+    cursor: pointer;
+    font-size: 0.7rem;
+}
+
+.filter-tag i:hover {
+    color: var(--danger-color);
 }
 
 /* Utility Classes */
@@ -638,41 +769,12 @@ input, select, textarea {
     }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .sidebar {
-        transform: translateX(-100%);
-    }
-    
-    .sidebar.mobile-open {
-        transform: translateX(0);
-    }
-    
-    .main-content {
-        margin-left: 0 !important;
-    }
-}
-
 /* ============================================
-   HUMMINGBIRD ERP - MOBILE RESPONSIVE SYSTEM
+   MOBILE RESPONSIVE SYSTEM
    ============================================ */
-
-/* Mobile Breakpoints */
-:root {
-    --mobile: 480px;
-    --tablet: 768px;
-    --laptop: 1024px;
-    --desktop: 1280px;
-    --wide: 1536px;
-}
-
-/* ------------------------------------------
-   1. MOBILE-FIRST BASE ADJUSTMENTS
-   ------------------------------------------ */
 
 /* Touch-friendly tap targets */
 @media (max-width: 768px) {
-    /* Increase tap target sizes */
     .btn,
     .btn-icon,
     .btn-icon-sm,
@@ -682,15 +784,13 @@ input, select, textarea {
         min-width: 44px;
     }
 
-    /* Larger form inputs for mobile */
     .form-input,
     .form-select,
     .form-textarea {
-        font-size: 16px; /* Prevents iOS zoom on focus */
+        font-size: 16px;
         padding: 14px 16px;
     }
 
-    /* Remove hover effects on mobile (use active instead) */
     .card-lift:hover,
     .card-glow:hover,
     .data-table tbody tr:hover {
@@ -708,10 +808,7 @@ input, select, textarea {
     }
 }
 
-/* ------------------------------------------
-   2. MOBILE SIDEBAR (OFF-CANVAS)
-   ------------------------------------------ */
-
+/* Mobile Sidebar (Off-Canvas) */
 @media (max-width: 768px) {
     .app-container {
         position: relative;
@@ -723,6 +820,7 @@ input, select, textarea {
         left: 0;
         width: 280px;
         height: 100vh;
+        height: 100dvh;
         z-index: calc(var(--z-sidebar) + 50);
         transform: translateX(-100%);
         transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -734,7 +832,6 @@ input, select, textarea {
         box-shadow: var(--shadow-xl);
     }
 
-    /* Overlay when sidebar is open */
     .sidebar-overlay {
         display: none;
         position: fixed;
@@ -753,13 +850,11 @@ input, select, textarea {
         opacity: 1;
     }
 
-    /* Main content full width */
     .main-content {
         margin-left: 0 !important;
         width: 100%;
     }
 
-    /* Sidebar close button for mobile */
     .sidebar-close-mobile {
         display: flex !important;
         position: absolute;
@@ -778,7 +873,6 @@ input, select, textarea {
     }
 }
 
-/* Show/hide mobile elements */
 @media (min-width: 769px) {
     .sidebar-close-mobile {
         display: none !important;
@@ -789,10 +883,7 @@ input, select, textarea {
     }
 }
 
-/* ------------------------------------------
-   3. MOBILE TOPBAR
-   ------------------------------------------ */
-
+/* Mobile Topbar */
 @media (max-width: 768px) {
     .topbar {
         height: 60px;
@@ -800,7 +891,7 @@ input, select, textarea {
     }
 
     .topbar-center {
-        display: none; /* Hide global search on mobile */
+        display: none;
     }
 
     .page-title {
@@ -812,11 +903,11 @@ input, select, textarea {
     }
 
     .theme-switcher {
-        display: none; /* Hide theme switcher on small mobile */
+        display: none;
     }
 
     .date-display {
-        display: none; /* Hide full date on mobile */
+        display: none;
     }
 
     .btn-menu-toggle {
@@ -824,28 +915,13 @@ input, select, textarea {
         height: 40px;
     }
 
-    /* Mobile quick action dropdown */
     .quick-actions .btn-icon:nth-child(2),
     .quick-actions .btn-icon:nth-child(3) {
         display: none;
     }
-
-    .quick-actions-mobile {
-        display: flex;
-        gap: 4px;
-    }
 }
 
-@media (min-width: 769px) {
-    .quick-actions-mobile {
-        display: none;
-    }
-}
-
-/* ------------------------------------------
-   4. MOBILE MODULE CONTAINER
-   ------------------------------------------ */
-
+/* Mobile Module Container */
 @media (max-width: 768px) {
     .module-container {
         padding: 12px;
@@ -873,213 +949,7 @@ input, select, textarea {
     }
 }
 
-/* ------------------------------------------
-   5. MOBILE KPI / DASHBOARD
-   ------------------------------------------ */
-
-@media (max-width: 1200px) {
-    .kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-md);
-    }
-}
-
-@media (max-width: 640px) {
-    .kpi-grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-sm);
-    }
-
-    .kpi-card {
-        padding: 16px;
-    }
-
-    .kpi-icon {
-        width: 44px;
-        height: 44px;
-        font-size: 1.2rem;
-    }
-
-    .kpi-value {
-        font-size: var(--font-size-xl);
-    }
-
-    .charts-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .chart-body {
-        height: 220px;
-    }
-
-    .bottom-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .activity-card,
-    .alerts-card {
-        max-height: 300px;
-    }
-}
-
-/* ------------------------------------------
-   6. MOBILE TABLES (HORIZONTAL SCROLL + CARD VIEW)
-   ------------------------------------------ */
-
-@media (max-width: 768px) {
-    /* Enable horizontal scroll for tables */
-    .data-table-container {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .data-table {
-        min-width: 600px;
-    }
-
-    /* Card view for very small screens */
-    @media (max-width: 480px) {
-        .data-table-container.card-view .data-table {
-            min-width: unset;
-        }
-
-        .data-table-container.card-view thead {
-            display: none;
-        }
-
-        .data-table-container.card-view tbody tr {
-            display: block;
-            margin-bottom: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 12px;
-            background: var(--card-bg);
-        }
-
-        .data-table-container.card-view tbody td {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .data-table-container.card-view tbody td:last-child {
-            border-bottom: none;
-        }
-
-        .data-table-container.card-view tbody td::before {
-            content: attr(data-label);
-            font-weight: 700;
-            color: var(--text-secondary);
-            font-size: var(--font-size-xs);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .data-table-container.card-view .actions-cell {
-            justify-content: center;
-            gap: 8px;
-            padding-top: 8px;
-            border-top: 1px solid var(--border-color);
-        }
-    }
-}
-
-/* ------------------------------------------
-   7. MOBILE FORMS
-   ------------------------------------------ */
-
-@media (max-width: 768px) {
-    .form-grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-md);
-    }
-
-    .form-grid-3,
-    .form-grid-4 {
-        grid-template-columns: 1fr;
-    }
-
-    .form-actions {
-        flex-direction: column-reverse;
-        gap: var(--spacing-sm);
-    }
-
-    .form-actions .btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .input-group {
-        flex-direction: column;
-    }
-
-    .input-group .input-group-addon {
-        border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
-        border: 2px solid var(--input-border);
-        border-bottom: none;
-    }
-
-    .input-group .form-input {
-        border-radius: 0 0 var(--radius-md) var(--radius-md) !important;
-    }
-}
-
-/* ------------------------------------------
-   8. MOBILE MODALS
-   ------------------------------------------ */
-
-@media (max-width: 768px) {
-    .modal-container {
-        width: 95%;
-        max-width: 95%;
-        max-height: 90vh;
-        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-        margin-top: auto;
-    }
-
-    .modal-overlay {
-        align-items: flex-end;
-    }
-
-    .modal-header {
-        padding: 16px 20px;
-    }
-
-    .modal-header h3 {
-        font-size: var(--font-size-base);
-    }
-
-    .modal-body {
-        padding: 16px 20px;
-    }
-
-    .modal-footer {
-        padding: 12px 20px;
-        flex-direction: column-reverse;
-        gap: 8px;
-    }
-
-    .modal-footer .btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    /* Full-screen modal on mobile */
-    .modal-full-mobile {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: 100vh !important;
-        max-height: 100vh !important;
-        border-radius: 0 !important;
-    }
-}
-
-/* ------------------------------------------
-   9. MOBILE FILTER BAR
-   ------------------------------------------ */
-
+/* Mobile Filter Bar */
 @media (max-width: 768px) {
     .filter-bar {
         padding: 12px;
@@ -1102,6 +972,7 @@ input, select, textarea {
         width: 100%;
         display: flex;
         gap: 8px;
+        margin-left: 0;
     }
 
     .filter-actions .btn {
@@ -1110,10 +981,7 @@ input, select, textarea {
     }
 }
 
-/* ------------------------------------------
-   10. MOBILE PAGINATION
-   ------------------------------------------ */
-
+/* Mobile Pagination */
 @media (max-width: 480px) {
     .table-footer {
         flex-direction: column;
@@ -1132,10 +1000,7 @@ input, select, textarea {
     }
 }
 
-/* ------------------------------------------
-   11. MOBILE TOAST NOTIFICATIONS
-   ------------------------------------------ */
-
+/* Mobile Toast */
 @media (max-width: 768px) {
     .toast-container {
         top: auto;
@@ -1150,29 +1015,7 @@ input, select, textarea {
     }
 }
 
-/* ------------------------------------------
-   12. MOBILE CHARTS
-   ------------------------------------------ */
-
-@media (max-width: 640px) {
-    .chart-card {
-        padding: 16px;
-    }
-
-    .chart-body {
-        height: 200px;
-    }
-
-    /* Make chart legends smaller */
-    canvas {
-        max-height: 200px;
-    }
-}
-
-/* ------------------------------------------
-   13. TABLET-SPECIFIC ADJUSTMENTS
-   ------------------------------------------ */
-
+/* Tablet Adjustments */
 @media (min-width: 769px) and (max-width: 1024px) {
     :root {
         --sidebar-width: 220px;
@@ -1185,51 +1028,17 @@ input, select, textarea {
     .main-content {
         margin-left: 220px;
     }
-
-    .kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .charts-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .bottom-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .form-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
 }
 
-/* ------------------------------------------
-   14. LARGE DESKTOP OPTIMIZATION
-   ------------------------------------------ */
-
+/* Large Desktop */
 @media (min-width: 1536px) {
     .module-container {
         max-width: 1400px;
         margin: 0 auto;
     }
-
-    .kpi-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .charts-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .bottom-grid {
-        grid-template-columns: 1.5fr 1fr;
-    }
 }
 
-/* ------------------------------------------
-   15. PRINT STYLES (Hide UI elements)
-   ------------------------------------------ */
-
+/* Print Styles */
 @media print {
     .sidebar,
     .topbar,
@@ -1267,10 +1076,7 @@ input, select, textarea {
     }
 }
 
-/* ------------------------------------------
-   16. SAFE AREA (iPhone Notch)
-   ------------------------------------------ */
-
+/* Safe Area (iPhone Notch) */
 @supports (padding-top: env(safe-area-inset-top)) {
     .sidebar {
         padding-top: env(safe-area-inset-top);
@@ -1285,10 +1091,7 @@ input, select, textarea {
     }
 }
 
-/* ------------------------------------------
-   17. ORIENTATION CHANGES
-   ------------------------------------------ */
-
+/* Landscape Short Screens */
 @media (orientation: landscape) and (max-height: 500px) {
     .topbar {
         height: 48px;
@@ -1296,48 +1099,5 @@ input, select, textarea {
 
     .sidebar {
         width: 200px;
-    }
-
-    .kpi-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .kpi-card {
-        padding: 12px;
-    }
-
-    .kpi-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 1rem;
-    }
-
-    .kpi-value {
-        font-size: var(--font-size-lg);
-    }
-}
-
-/* ------------------------------------------
-   18. HIGH-DPI SCREENS
-   ------------------------------------------ */
-
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .glass-card {
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-    }
-}
-
-/* ------------------------------------------
-   19. DARK MODE MOBILE FIXES
-   ------------------------------------------ */
-
-@media (max-width: 768px) {
-    [data-theme="dark"] .sidebar.mobile-open {
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
-    }
-
-    [data-theme="dark"] .sidebar-overlay.active {
-        background: rgba(0, 0, 0, 0.7);
     }
 }
