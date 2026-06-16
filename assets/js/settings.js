@@ -2,6 +2,7 @@
  * Hummingbird ERP - Settings Module
  * Theme • Accent • Backup • Company Info
  */
+console.log('⚙️ settings.js loaded');
 
 class SettingsModule {
     static render(container) {
@@ -10,21 +11,17 @@ class SettingsModule {
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         
         container.innerHTML = `
-            <!-- Back Button -->
             <div style="margin-bottom: 20px;">
                 <button class="btn btn-secondary btn-lift" onclick="app.navigateTo('dashboard')">
                     <i class="fas fa-arrow-left"></i> Back to Dashboard
                 </button>
             </div>
 
-            <div class="settings-grid" style="display: grid; gap: 24px; max-width: 900px;">
+            <div style="display: grid; gap: 24px; max-width: 900px;">
                 
                 <!-- Theme Settings -->
                 <div class="glass-card" style="padding: 24px;">
-                    <h3 style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-                        <i class="fas fa-palette" style="color: var(--accent-color);"></i> Theme Settings
-                    </h3>
-                    
+                    <h3 style="margin-bottom: 16px;"><i class="fas fa-palette" style="color: var(--accent-color);"></i> Theme Settings</h3>
                     <div style="margin-bottom: 20px;">
                         <label style="font-weight: 600; display: block; margin-bottom: 8px;">Display Mode</label>
                         <div style="display: flex; gap: 12px;">
@@ -42,10 +39,7 @@ class SettingsModule {
 
                 <!-- Accent Colors -->
                 <div class="glass-card" style="padding: 24px;">
-                    <h3 style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-                        <i class="fas fa-swatchbook" style="color: var(--accent-color);"></i> Accent Color
-                    </h3>
-                    
+                    <h3 style="margin-bottom: 16px;"><i class="fas fa-swatchbook" style="color: var(--accent-color);"></i> Accent Color</h3>
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
                         ${[
                             { name: 'Blue', color: 'blue', bg: '#3b82f6' },
@@ -67,10 +61,7 @@ class SettingsModule {
 
                 <!-- Backup & Restore -->
                 <div class="glass-card" style="padding: 24px;">
-                    <h3 style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-                        <i class="fas fa-database" style="color: var(--accent-color);"></i> Data Management
-                    </h3>
-                    
+                    <h3 style="margin-bottom: 16px;"><i class="fas fa-database" style="color: var(--accent-color);"></i> Data Management</h3>
                     <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                         <button class="btn btn-primary btn-lift" onclick="app.backupData()">
                             <i class="fas fa-download"></i> Backup All Data
@@ -78,18 +69,12 @@ class SettingsModule {
                         <button class="btn btn-secondary btn-lift" onclick="app.restoreData()">
                             <i class="fas fa-upload"></i> Restore Data
                         </button>
-                        <button class="btn btn-danger btn-lift" onclick="SettingsModule.clearAllData()">
-                            <i class="fas fa-trash"></i> Clear All Data
-                        </button>
                     </div>
                 </div>
 
                 <!-- Company Info -->
                 <div class="glass-card" style="padding: 24px;">
-                    <h3 style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-                        <i class="fas fa-building" style="color: var(--accent-color);"></i> Company Information
-                    </h3>
-                    
+                    <h3 style="margin-bottom: 16px;"><i class="fas fa-building" style="color: var(--accent-color);"></i> Company Information</h3>
                     <form onsubmit="SettingsModule.saveCompanyInfo(event)" style="display: grid; gap: 16px;">
                         <div class="form-group">
                             <label>Company Name</label>
@@ -107,10 +92,7 @@ class SettingsModule {
 
                 <!-- System Info -->
                 <div class="glass-card" style="padding: 24px;">
-                    <h3 style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-                        <i class="fas fa-info-circle" style="color: var(--accent-color);"></i> System Information
-                    </h3>
-                    
+                    <h3 style="margin-bottom: 16px;"><i class="fas fa-info-circle" style="color: var(--accent-color);"></i> System Information</h3>
                     <div style="display: grid; gap: 8px; font-size: 0.9rem;">
                         <div style="display: flex; justify-content: space-between;">
                             <span style="color: var(--text-secondary);">Version:</span>
@@ -118,15 +100,11 @@ class SettingsModule {
                         </div>
                         <div style="display: flex; justify-content: space-between;">
                             <span style="color: var(--text-secondary);">Platform:</span>
-                            <span style="font-weight: 600;">${window.isElectron ? 'Electron Desktop' : 'Web Browser'}</span>
+                            <span style="font-weight: 600;">Web Browser</span>
                         </div>
                         <div style="display: flex; justify-content: space-between;">
                             <span style="color: var(--text-secondary);">Storage:</span>
-                            <span style="font-weight: 600;">Local JSON (localStorage)</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span style="color: var(--text-secondary);">Last Backup:</span>
-                            <span style="font-weight: 600;">${settings.lastBackup ? new Date(settings.lastBackup).toLocaleString() : 'Never'}</span>
+                            <span style="font-weight: 600;">Local JSON</span>
                         </div>
                     </div>
                 </div>
@@ -135,55 +113,42 @@ class SettingsModule {
     }
 
     static setTheme(theme) {
-        app.switchTheme(theme);
-        // Re-render settings to update button states
-        const container = document.getElementById('moduleContainer');
-        if (container) SettingsModule.render(container);
+        if (window.app) {
+            app.switchTheme(theme);
+            // Re-render settings
+            const container = document.getElementById('moduleContainer');
+            if (container) SettingsModule.render(container);
+        }
     }
 
     static setAccent(accent) {
-        console.log('🎨 Setting accent to:', accent);
-        
-        // Update the HTML attribute
+        console.log('🎨 Setting accent:', accent);
         document.documentElement.setAttribute('data-accent', accent);
         
-        // Save to database
-        db.updateSettings({ accent: accent });
+        try {
+            db.updateSettings({ accent: accent });
+        } catch(e) {}
         
-        // Also save to localStorage
         localStorage.setItem('hummingbird_accent', accent);
         
-        app.showToast(`Accent color changed to ${accent}`, 'success');
+        if (window.app) {
+            app.showToast(`Accent: ${accent}`, 'success');
+        }
         
-        // Re-render settings to update button states
+        // Re-render settings
         const container = document.getElementById('moduleContainer');
         if (container) SettingsModule.render(container);
     }
 
     static saveCompanyInfo(event) {
         event.preventDefault();
-        
         const companyName = document.getElementById('companyName').value;
         const brandName = document.getElementById('brandName').value;
         
-        db.updateSettings({ 
-            companyName: companyName, 
-            brand: brandName 
-        });
+        db.updateSettings({ companyName, brand: brandName });
         
-        app.showToast('Company information saved!', 'success');
-    }
-
-    static clearAllData() {
-        app.showConfirm(
-            'Clear All Data',
-            'WARNING: This will delete ALL records permanently! This cannot be undone. Are you absolutely sure?',
-            () => {
-                db.clearAll();
-                db.initializeDatabase();
-                app.showToast('All data cleared. Reinitializing...', 'warning');
-                setTimeout(() => location.reload(), 1500);
-            }
-        );
+        if (window.app) {
+            app.showToast('Company info saved!', 'success');
+        }
     }
 }
