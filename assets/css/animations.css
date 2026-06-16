@@ -1,0 +1,714 @@
+/* ============================================
+   HUMMINGBIRD ERP - PREMIUM ANIMATIONS
+   Glassmorphism • Micro-interactions • Page Transitions
+   ============================================ */
+
+/* ------------------------------------------
+   1. PAGE TRANSITIONS
+   ------------------------------------------ */
+
+/* Fade + Slide Up (Module Changes) */
+@keyframes moduleEnter {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes moduleExit {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+        filter: blur(4px);
+    }
+}
+
+.module-entering {
+    animation: moduleEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.module-exiting {
+    animation: moduleExit 0.3s cubic-bezier(0.5, 0, 0.75, 0) forwards;
+}
+
+/* Slide from Right (Deeper Navigation) */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide from Left (Back Navigation) */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Scale In (Modals, Cards) */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes scaleOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+}
+
+/* ------------------------------------------
+   2. BUTTON INTERACTIONS
+   ------------------------------------------ */
+
+/* Ripple Effect */
+.btn-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-ripple:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* Button Press Effect */
+.btn {
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn:active {
+    transform: scale(0.95) !important;
+}
+
+/* Button Hover Lift */
+.btn-lift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.btn-lift:active {
+    transform: translateY(-1px);
+}
+
+/* Glow on Hover */
+.btn-glow {
+    transition: all 0.3s ease;
+}
+
+.btn-glow:hover {
+    box-shadow: 0 0 25px var(--accent-shadow), 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon Button Spin */
+.btn-icon:hover i {
+    animation: iconSpin 0.5s ease;
+}
+
+@keyframes iconSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ------------------------------------------
+   3. TABLE ROW ANIMATIONS
+   ------------------------------------------ */
+
+/* Row Slide In */
+@keyframes rowSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.data-table tbody tr {
+    animation: rowSlideIn 0.4s ease forwards;
+    opacity: 0;
+}
+
+.data-table tbody tr:nth-child(1) { animation-delay: 0.05s; }
+.data-table tbody tr:nth-child(2) { animation-delay: 0.10s; }
+.data-table tbody tr:nth-child(3) { animation-delay: 0.15s; }
+.data-table tbody tr:nth-child(4) { animation-delay: 0.20s; }
+.data-table tbody tr:nth-child(5) { animation-delay: 0.25s; }
+.data-table tbody tr:nth-child(6) { animation-delay: 0.30s; }
+.data-table tbody tr:nth-child(7) { animation-delay: 0.35s; }
+.data-table tbody tr:nth-child(8) { animation-delay: 0.40s; }
+.data-table tbody tr:nth-child(9) { animation-delay: 0.45s; }
+.data-table tbody tr:nth-child(10) { animation-delay: 0.50s; }
+
+/* Row Hover Effect */
+.data-table tbody tr {
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.data-table tbody tr:hover {
+    background: var(--accent-light);
+    transform: translateX(6px);
+    box-shadow: -4px 0 0 var(--accent-color);
+}
+
+.data-table tbody tr:hover td:first-child {
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
+/* Row Click Feedback */
+.data-table tbody tr:active {
+    transform: scale(0.99);
+    transition: transform 0.1s ease;
+}
+
+/* ------------------------------------------
+   4. SIDEBAR ANIMATIONS
+   ------------------------------------------ */
+
+/* Nav Item Slide */
+.nav-item a {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-item a:hover {
+    transform: translateX(6px);
+    padding-left: 20px;
+}
+
+/* Active Indicator Animation */
+.nav-item.active a::before {
+    animation: activeIndicatorIn 0.3s ease forwards;
+}
+
+@keyframes activeIndicatorIn {
+    from { height: 0; }
+    to { height: 24px; }
+}
+
+/* Submenu Accordion */
+.submenu {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.has-submenu.open .submenu {
+    max-height: 500px;
+}
+
+/* Sidebar Collapse Animation */
+.sidebar {
+    transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sidebar.collapsed .logo-text,
+.sidebar.collapsed .nav-item span,
+.sidebar.collapsed .submenu-arrow,
+.sidebar.collapsed .user-details {
+    animation: fadeOutRight 0.2s ease forwards;
+}
+
+@keyframes fadeOutRight {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(-10px); }
+}
+
+/* Sidebar Toggle Button */
+.sidebar-collapse i {
+    transition: transform 0.4s ease;
+}
+
+.sidebar.collapsed .sidebar-collapse i {
+    transform: rotate(180deg);
+}
+
+/* ------------------------------------------
+   5. MODAL ANIMATIONS
+   ------------------------------------------ */
+
+.modal-overlay {
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.modal-overlay.active .modal-container {
+    animation: modalBounceIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalBounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(30px);
+    }
+    50% {
+        transform: scale(1.02) translateY(-5px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-overlay.closing {
+    animation: fadeOut 0.2s ease forwards;
+}
+
+.modal-overlay.closing .modal-container {
+    animation: modalBounceOut 0.3s ease forwards;
+}
+
+@keyframes modalBounceOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+}
+
+/* ------------------------------------------
+   6. NOTIFICATION ANIMATIONS
+   ------------------------------------------ */
+
+.toast {
+    animation: toastSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes toastSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(120%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.toast.removing {
+    animation: toastSlideOut 0.3s ease forwards;
+}
+
+@keyframes toastSlideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(120%);
+    }
+}
+
+/* Toast Progress Bar */
+.toast::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.5);
+    animation: toastProgress 3s linear forwards;
+}
+
+@keyframes toastProgress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+/* ------------------------------------------
+   7. NUMBER COUNTER ANIMATION
+   ------------------------------------------ */
+
+@keyframes countUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.counter-animate {
+    animation: countUp 0.6s ease forwards;
+}
+
+/* ------------------------------------------
+   8. PULSE & GLOW EFFECTS
+   ------------------------------------------ */
+
+/* Pulse Ring */
+@keyframes pulseRing {
+    0% { box-shadow: 0 0 0 0 var(--accent-shadow); }
+    70% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+.pulse {
+    animation: pulseRing 2s infinite;
+}
+
+/* Glow Pulse */
+@keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 5px var(--accent-shadow); }
+    50% { box-shadow: 0 0 25px var(--accent-shadow), 0 0 50px var(--accent-shadow); }
+}
+
+.glow-pulse {
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* ------------------------------------------
+   9. LOADING & SKELETON
+   ------------------------------------------ */
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.skeleton {
+    background: linear-gradient(90deg, 
+        var(--bg-tertiary) 25%, 
+        var(--bg-hover) 50%, 
+        var(--bg-tertiary) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--radius-sm);
+}
+
+/* Spinner */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* ------------------------------------------
+   10. HOVER EFFECTS LIBRARY
+   ------------------------------------------ */
+
+/* Card Lift */
+.card-lift {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px var(--shadow-color);
+}
+
+/* Card Glow */
+.card-glow {
+    transition: all 0.3s ease;
+}
+
+.card-glow:hover {
+    box-shadow: 0 0 30px var(--accent-shadow), 0 10px 20px var(--shadow-color);
+}
+
+/* Image Zoom */
+.img-zoom {
+    overflow: hidden;
+}
+
+.img-zoom img {
+    transition: transform 0.5s ease;
+}
+
+.img-zoom:hover img {
+    transform: scale(1.1);
+}
+
+/* Underline Reveal */
+.underline-reveal {
+    position: relative;
+}
+
+.underline-reveal::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+.underline-reveal:hover::after {
+    width: 100%;
+}
+
+/* ------------------------------------------
+   11. GLASSMORPHISM SPECIFIC
+   ------------------------------------------ */
+
+.glass-card {
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Glass Reflection */
+.glass-reflection {
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-reflection::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 60%
+    );
+    transition: transform 0.6s ease;
+    transform: translateX(-100%) rotate(45deg);
+}
+
+.glass-reflection:hover::before {
+    transform: translateX(100%) rotate(45deg);
+}
+
+/* ------------------------------------------
+   12. INPUT FOCUS EFFECTS
+   ------------------------------------------ */
+
+.form-input {
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--accent-shadow);
+}
+
+/* Floating Label Animation */
+.floating-label-group {
+    position: relative;
+}
+
+.floating-label-group label {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    color: var(--text-tertiary);
+}
+
+.floating-label-group input:focus + label,
+.floating-label-group input:not(:placeholder-shown) + label {
+    top: 0;
+    transform: translateY(-50%) scale(0.85);
+    color: var(--accent-color);
+    background: var(--card-bg);
+    padding: 0 8px;
+}
+
+/* ------------------------------------------
+   13. SCROLL REVEAL
+   ------------------------------------------ */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ------------------------------------------
+   14. BADGE & STATUS
+   ------------------------------------------ */
+
+@keyframes statusPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.status-active {
+    animation: statusPulse 2s infinite;
+}
+
+/* ------------------------------------------
+   15. DATA ENTRY FEEDBACK
+   ------------------------------------------ */
+
+@keyframes savedCheck {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.saved-indicator {
+    animation: savedCheck 0.5s ease;
+}
+
+/* Shake on Error */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+    20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+.shake {
+    animation: shake 0.6s ease;
+}
+
+/* ------------------------------------------
+   16. TOOLTIP
+   ------------------------------------------ */
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+.tooltip:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+/* ------------------------------------------
+   17. DARK MODE SPECIFIC
+   ------------------------------------------ */
+
+[data-theme="dark"] .glass-reflection::before {
+    background: linear-gradient(
+        45deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.05) 50%,
+        transparent 60%
+    );
+}
+
+[data-theme="dark"] .data-table tbody tr:hover {
+    box-shadow: -4px 0 0 var(--accent-color), 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ------------------------------------------
+   18. REDUCED MOTION
+   ------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
