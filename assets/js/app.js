@@ -1,6 +1,6 @@
 /**
  * Hummingbird Clothing ERP - Main Application
- * Core routing, navigation, mobile support, and app initialization
+ * FIXED: Navigation, Sidebar, Theme, Settings
  */
 
 class HummingbirdERP {
@@ -27,24 +27,102 @@ class HummingbirdERP {
         this.initMobileDetection();
         this.setupKeyboardShortcuts();
         this.updateDateTime();
-        this.navigateTo('dashboard');
         this.setupAutoSave();
+        
+        // Load dashboard after a short delay to ensure DOM is ready
+        setTimeout(() => {
+            this.navigateTo('dashboard');
+        }, 100);
     }
 
     loadSettings() {
         const settings = db.getSettings();
         document.documentElement.setAttribute('data-theme', settings.theme || 'light');
         document.documentElement.setAttribute('data-accent', settings.accent || 'blue');
+        
+        // Set active theme button
+        const currentTheme = settings.theme || 'light';
+        document.querySelectorAll('.btn-theme').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-theme') === currentTheme) {
+                btn.classList.add('active');
+            }
+        });
     }
 
     setupEventListeners() {
-        document.getElementById('menuToggle').addEventListener('click', () => this.toggleSidebar());
-        document.getElementById('sidebarCollapse').addEventListener('click', () => this.toggleSidebar());
+        // Menu toggle button
+        const menuToggle = document.getElementById('menuToggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggleSidebar();
+            });
+        }
 
+        // Sidebar collapse button
+        const sidebarCollapse = document.getElementById('sidebarCollapse');
+        if (sidebarCollapse) {
+            sidebarCollapse.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggleSidebar();
+            });
+        }
+
+        // Theme buttons
+        document.querySelectorAll('.btn-theme').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const theme = btn.getAttribute('data-theme');
+                this.switchTheme(theme);
+            });
+        });
+
+        // Settings button in sidebar footer
+        const btnSettings = document.querySelector('.btn-settings');
+        if (btnSettings) {
+            btnSettings.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.navigateTo('settings');
+            });
+        }
+
+        // Modal overlay click to close
+        const modalOverlay = document.getElementById('modalOverlay');
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    this.closeModal();
+                }
+            });
+        }
+
+        // Confirm overlay click to close
+        const confirmOverlay = document.getElementById('confirmOverlay');
+        if (confirmOverlay) {
+            confirmOverlay.addEventListener('click', (e) => {
+                if (e.target === confirmOverlay) {
+                    this.closeConfirm();
+                }
+            });
+        }
+
+        // Touch events for mobile swipe
         document.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
         document.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
 
+        // Window resize
         window.addEventListener('resize', () => this.handleResize());
+
+        // Global search
+        const globalSearch = document.getElementById('globalSearch');
+        if (globalSearch) {
+            globalSearch.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    this.globalSearch(globalSearch.value);
+                }
+            });
+        }
     }
 
     // ==========================================
@@ -67,7 +145,10 @@ class HummingbirdERP {
         } else {
             document.body.classList.remove('is-mobile');
             document.body.classList.add('is-desktop');
-            document.getElementById('sidebar')?.classList.remove('mobile-open');
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.classList.remove('mobile-open');
+            }
             document.body.style.overflow = '';
             this.removeSidebarOverlay();
         }
@@ -95,12 +176,17 @@ class HummingbirdERP {
             closeBtn.className = 'sidebar-close-mobile';
             closeBtn.innerHTML = '<i class="fas fa-times"></i>';
             closeBtn.addEventListener('click', () => this.closeMobileSidebar());
-            sidebar.querySelector('.sidebar-header').appendChild(closeBtn);
+            const sidebarHeader = sidebar.querySelector('.sidebar-header');
+            if (sidebarHeader) {
+                sidebarHeader.appendChild(closeBtn);
+            }
         }
     }
 
     toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
+        if (!sidebar) return;
+        
         const overlay = document.getElementById('sidebarOverlay');
         
         if (this.isMobile) {
@@ -118,6 +204,8 @@ class HummingbirdERP {
 
     closeMobileSidebar() {
         const sidebar = document.getElementById('sidebar');
+        if (!sidebar) return;
+        
         const overlay = document.getElementById('sidebarOverlay');
         
         sidebar.classList.remove('mobile-open');
@@ -136,20 +224,20 @@ class HummingbirdERP {
         const diffX = touchEndX - this.touchStartX;
         const diffY = touchEndY - this.touchStartY;
         
-        // Swipe right to open sidebar
         if (this.isMobile && 
             Math.abs(diffX) > Math.abs(diffY) && 
             Math.abs(diffX) > 80 && 
             diffX > 0 &&
             this.touchStartX < 40) {
             const sidebar = document.getElementById('sidebar');
-            sidebar.classList.add('mobile-open');
-            const overlay = document.getElementById('sidebarOverlay');
-            if (overlay) overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            if (sidebar) {
+                sidebar.classList.add('mobile-open');
+                const overlay = document.getElementById('sidebarOverlay');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
         }
         
-        // Swipe left to close sidebar
         if (this.isMobile && 
             Math.abs(diffX) > Math.abs(diffY) && 
             Math.abs(diffX) > 80 && 
@@ -161,76 +249,147 @@ class HummingbirdERP {
     handleResize() {
         this.checkMobile();
         if (window.innerWidth > 768) {
-            document.getElementById('sidebar').classList.remove('mobile-open');
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.classList.remove('mobile-open');
+            }
             document.body.style.overflow = '';
         }
     }
 
     // ==========================================
-    // NAVIGATION
+    // NAVIGATION (FIXED)
     // ==========================================
 
     navigateTo(moduleName) {
+        console.log('Navigating to:', moduleName);
+        
         if (!this.modules.includes(moduleName)) {
-            this.showToast('Module not found', 'error');
+            console.warn('Module not found:', moduleName);
+            this.showToast('Module not found: ' + moduleName, 'error');
             return;
         }
 
+        // Update active nav item
         document.querySelectorAll('.nav-item').forEach(item => {
             item.classList.remove('active');
         });
+        
         const navItem = document.querySelector(`[data-module="${moduleName}"]`);
-        if (navItem) navItem.classList.add('active');
+        if (navItem) {
+            navItem.classList.add('active');
+        }
 
+        // Update page title
         const title = moduleName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-        document.getElementById('pageTitle').textContent = title;
+        const pageTitle = document.getElementById('pageTitle');
+        if (pageTitle) {
+            pageTitle.textContent = title;
+        }
         document.title = `Hummingbird ERP - ${title}`;
 
         this.saveCurrentModule();
         this.currentModule = moduleName;
         this.loadModule(moduleName);
 
+        // Close mobile sidebar after navigation
         if (this.isMobile) {
             this.closeMobileSidebar();
-            document.getElementById('moduleContainer').scrollTop = 0;
+            const moduleContainer = document.getElementById('moduleContainer');
+            if (moduleContainer) {
+                moduleContainer.scrollTop = 0;
+            }
         }
     }
 
     loadModule(moduleName) {
         const container = document.getElementById('moduleContainer');
+        if (!container) {
+            console.error('Module container not found!');
+            return;
+        }
+        
         container.style.opacity = '0';
         
         setTimeout(() => {
-            switch(moduleName) {
-                case 'dashboard':
-                    DashboardModule.render(container);
-                    break;
-                case 'sub-garments':
-                    SubGarmentsModule.render(container);
-                    break;
-                case 'production':
-                    ProductionModule.render(container);
-                    break;
-                case 'finishing':
-                    FinishingModule.render(container);
-                    break;
-                case 'payments':
-                    PaymentsModule.render(container);
-                    break;
-                case 'ledger':
-                    LedgerModule.render(container);
-                    break;
-                case 'inventory':
-                    InventoryModule.render(container);
-                    break;
-                case 'reports':
-                    ReportsModule.render(container);
-                    break;
-                case 'settings':
-                    SettingsModule.render(container);
-                    break;
-                default:
-                    this.renderGenericModule(container, moduleName);
+            try {
+                switch(moduleName) {
+                    case 'dashboard':
+                        if (typeof DashboardModule !== 'undefined') {
+                            DashboardModule.render(container);
+                        } else {
+                            container.innerHTML = '<div class="glass-card" style="padding:40px;text-align:center;"><h3>Dashboard Module Loading...</h3></div>';
+                        }
+                        break;
+                    case 'sub-garments':
+                        if (typeof SubGarmentsModule !== 'undefined') {
+                            SubGarmentsModule.render(container);
+                        } else {
+                            container.innerHTML = '<div class="glass-card" style="padding:40px;text-align:center;"><h3>Sub Garments Module Loading...</h3></div>';
+                        }
+                        break;
+                    case 'production':
+                        if (typeof ProductionModule !== 'undefined') {
+                            ProductionModule.render(container);
+                        } else {
+                            this.renderGenericModule(container, moduleName);
+                        }
+                        break;
+                    case 'finishing':
+                        if (typeof FinishingModule !== 'undefined') {
+                            FinishingModule.render(container);
+                        } else {
+                            this.renderGenericModule(container, moduleName);
+                        }
+                        break;
+                    case 'payments':
+                        if (typeof PaymentsModule !== 'undefined') {
+                            PaymentsModule.render(container);
+                        } else {
+                            this.renderGenericModule(container, moduleName);
+                        }
+                        break;
+                    case 'ledger':
+                        if (typeof LedgerModule !== 'undefined') {
+                            LedgerModule.render(container);
+                        } else {
+                            this.renderGenericModule(container, moduleName);
+                        }
+                        break;
+                    case 'inventory':
+                        if (typeof InventoryModule !== 'undefined') {
+                            InventoryModule.render(container);
+                        } else {
+                            this.renderGenericModule(container, moduleName);
+                        }
+                        break;
+                    case 'reports':
+                        if (typeof ReportsModule !== 'undefined') {
+                            ReportsModule.render(container);
+                        } else {
+                            this.renderGenericModule(container, moduleName);
+                        }
+                        break;
+                    case 'settings':
+                        if (typeof SettingsModule !== 'undefined') {
+                            SettingsModule.render(container);
+                        } else {
+                            this.renderGenericModule(container, moduleName);
+                        }
+                        break;
+                    default:
+                        this.renderGenericModule(container, moduleName);
+                }
+            } catch (error) {
+                console.error('Error loading module:', moduleName, error);
+                container.innerHTML = `
+                    <div class="glass-card" style="padding:40px;text-align:center;">
+                        <i class="fas fa-exclamation-triangle" style="font-size:3rem;color:var(--danger-color);"></i>
+                        <h3 style="margin-top:16px;">Error Loading Module</h3>
+                        <p style="color:var(--text-tertiary);">${error.message}</p>
+                        <button class="btn btn-primary" onclick="app.navigateTo('dashboard')">Go to Dashboard</button>
+                    </div>
+                `;
             }
             
             container.style.opacity = '1';
@@ -266,9 +425,11 @@ class HummingbirdERP {
         `;
 
         // Initialize filter system
-        window[`${moduleName}Filter`] = new FilterSystem(moduleName, `${moduleName}FilterContainer`);
-        window[`${moduleName}Filter`].render();
-        window[`${moduleName}Filter`].updateTable = (items) => this.renderTable(moduleName, items);
+        if (typeof FilterSystem !== 'undefined') {
+            window[`${moduleName}Filter`] = new FilterSystem(moduleName, `${moduleName}FilterContainer`);
+            window[`${moduleName}Filter`].render();
+            window[`${moduleName}Filter`].updateTable = (filteredItems) => this.renderTable(moduleName, filteredItems);
+        }
 
         this.renderTable(moduleName, items);
     }
@@ -338,15 +499,21 @@ class HummingbirdERP {
         const overlay = document.getElementById('modalOverlay');
         const container = document.getElementById('modalContainer');
         
+        if (!overlay || !container) return;
+        
         container.innerHTML = this.getModalContent(type, data);
         overlay.classList.add('active');
+        overlay.style.display = 'flex';
     }
 
     closeModal() {
         const overlay = document.getElementById('modalOverlay');
+        if (!overlay) return;
+        
         overlay.classList.add('closing');
         setTimeout(() => {
             overlay.classList.remove('active', 'closing');
+            overlay.style.display = 'none';
         }, 300);
     }
 
@@ -419,23 +586,29 @@ class HummingbirdERP {
 
     viewItem(collection, id) {
         const item = db.getItem(collection, id);
-        if (item) {
-            const formatted = JSON.stringify(item, null, 2);
-            const modalContainer = document.getElementById('modalContainer');
-            document.getElementById('modalOverlay').classList.add('active');
-            modalContainer.innerHTML = `
-                <div class="modal-header">
-                    <h3><i class="fas fa-eye"></i> View Record</h3>
-                    <button class="btn-close" onclick="app.closeModal()"><i class="fas fa-times"></i></button>
-                </div>
-                <div class="modal-body">
-                    <pre style="white-space: pre-wrap; font-family: monospace; font-size: 13px; background: var(--bg-tertiary); padding: 16px; border-radius: var(--radius-md);">${formatted}</pre>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" onclick="app.closeModal()">Close</button>
-                </div>
-            `;
-        }
+        if (!item) return;
+
+        const overlay = document.getElementById('modalOverlay');
+        const container = document.getElementById('modalContainer');
+        if (!overlay || !container) return;
+
+        const formatted = JSON.stringify(item, null, 2);
+        
+        container.innerHTML = `
+            <div class="modal-header">
+                <h3><i class="fas fa-eye"></i> View Record</h3>
+                <button class="btn-close" onclick="app.closeModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <pre style="white-space: pre-wrap; font-family: monospace; font-size: 13px; background: var(--bg-tertiary); padding: 16px; border-radius: var(--radius-md); max-height: 60vh; overflow-y: auto;">${formatted}</pre>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="app.closeModal()">Close</button>
+            </div>
+        `;
+        
+        overlay.classList.add('active');
+        overlay.style.display = 'flex';
     }
 
     editItem(collection, id) {
@@ -462,14 +635,23 @@ class HummingbirdERP {
     // ==========================================
 
     showConfirm(title, message, callback) {
-        document.getElementById('confirmTitle').textContent = title;
-        document.getElementById('confirmMessage').textContent = message;
-        document.getElementById('confirmOverlay').style.display = 'flex';
+        const overlay = document.getElementById('confirmOverlay');
+        const titleEl = document.getElementById('confirmTitle');
+        const messageEl = document.getElementById('confirmMessage');
+        
+        if (!overlay || !titleEl || !messageEl) return;
+        
+        titleEl.textContent = title;
+        messageEl.textContent = message;
+        overlay.style.display = 'flex';
         this._confirmCallback = callback;
     }
 
     closeConfirm() {
-        document.getElementById('confirmOverlay').style.display = 'none';
+        const overlay = document.getElementById('confirmOverlay');
+        if (overlay) {
+            overlay.style.display = 'none';
+        }
         this._confirmCallback = null;
     }
 
@@ -486,6 +668,8 @@ class HummingbirdERP {
 
     showToast(message, type = 'info') {
         const container = document.getElementById('toastContainer');
+        if (!container) return;
+        
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
         
@@ -497,7 +681,7 @@ class HummingbirdERP {
         };
         
         toast.innerHTML = `
-            <i class="fas ${icons[type]}"></i>
+            <i class="fas ${icons[type] || icons.info}"></i>
             <span>${message}</span>
         `;
         
@@ -510,18 +694,33 @@ class HummingbirdERP {
     }
 
     // ==========================================
-    // THEME & SETTINGS
+    // THEME (FIXED)
     // ==========================================
 
     switchTheme(theme) {
+        console.log('Switching theme to:', theme);
+        
         document.documentElement.setAttribute('data-theme', theme);
-        db.updateSettings({ theme });
+        
+        // Save to database
+        try {
+            db.updateSettings({ theme });
+        } catch(e) {
+            console.warn('Could not save theme setting:', e);
+        }
+        
+        // Save to localStorage as backup
         localStorage.setItem('hummingbird_theme', theme);
         
+        // Update theme buttons
         document.querySelectorAll('.btn-theme').forEach(btn => {
             btn.classList.remove('active');
-            if (btn.dataset.theme === theme) btn.classList.add('active');
+            if (btn.getAttribute('data-theme') === theme) {
+                btn.classList.add('active');
+            }
         });
+        
+        this.showToast(`Theme switched to ${theme} mode`, 'success');
     }
 
     // ==========================================
@@ -577,7 +776,7 @@ class HummingbirdERP {
             this.navigateTo(results[0].module);
             this.showToast(`Found in ${results[0].module}`, 'info');
         } else if (results.length > 1) {
-            this.showToast(`Found ${results.length} results across ${[...new Set(results.map(r => r.module))].length} modules`, 'info');
+            this.showToast(`Found ${results.length} results`, 'info');
         } else {
             this.showToast('No results found', 'warning');
         }
@@ -591,7 +790,8 @@ class HummingbirdERP {
         document.addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault();
-                document.getElementById('globalSearch')?.focus();
+                const globalSearch = document.getElementById('globalSearch');
+                if (globalSearch) globalSearch.focus();
             }
             
             if (e.key === 'Escape') {
@@ -607,7 +807,7 @@ class HummingbirdERP {
     // ==========================================
 
     saveCurrentModule() {
-        // Implement auto-save per module if needed
+        // Auto-save implementation per module if needed
     }
 
     setupAutoSave() {
@@ -621,20 +821,30 @@ class HummingbirdERP {
             hour: '2-digit', minute: '2-digit'
         };
         const dateEl = document.getElementById('currentDate');
-        if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', options);
+        if (dateEl) {
+            dateEl.textContent = now.toLocaleDateString('en-US', options);
+        }
         setTimeout(() => this.updateDateTime(), 60000);
     }
 }
 
-// Global functions
+// ==========================================
+// GLOBAL FUNCTIONS (FIXED)
+// ==========================================
+
 function toggleSubmenu(event, submenuId) {
     event.preventDefault();
+    event.stopPropagation();
     const navItem = event.target.closest('.has-submenu');
-    navItem.classList.toggle('open');
+    if (navItem) {
+        navItem.classList.toggle('open');
+    }
 }
 
 function switchTheme(theme) {
-    if (window.app) window.app.switchTheme(theme);
+    if (window.app) {
+        window.app.switchTheme(theme);
+    }
 }
 
 function backupData() {
@@ -645,28 +855,44 @@ function restoreData() {
     if (window.app) window.app.restoreData();
 }
 
-// Initialize
+function navigateTo(module) {
+    if (window.app) {
+        window.app.navigateTo(module);
+    }
+}
+
+// ==========================================
+// INITIALIZE APP
+// ==========================================
+
 let app;
+
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, initializing Hummingbird ERP...');
+    
     setTimeout(() => {
         const loading = document.getElementById('app-loading');
         const appContainer = document.getElementById('appContainer');
         
-        loading.classList.add('hidden');
-        appContainer.style.display = 'flex';
+        if (loading) loading.classList.add('hidden');
+        if (appContainer) appContainer.style.display = 'flex';
         
+        // Create app instance
         window.app = new HummingbirdERP();
         
-        setTimeout(() => loading.remove(), 300);
+        if (loading) {
+            setTimeout(() => loading.remove(), 300);
+        }
+        
+        console.log('Hummingbird ERP initialized successfully!');
     }, 500);
 });
 
+// Global error handling
 window.addEventListener('error', (e) => {
     console.error('Application Error:', e.error);
-    if (window.app) window.app.showToast('An error occurred. Please try again.', 'error');
 });
 
 window.addEventListener('unhandledrejection', (e) => {
     console.error('Unhandled Promise Rejection:', e.reason);
-    if (window.app) window.app.showToast('Operation failed. Please try again.', 'error');
 });
