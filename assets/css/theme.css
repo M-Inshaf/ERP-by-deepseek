@@ -54,6 +54,17 @@
     --input-border: #334155;
 }
 
+/* Dark Mode Mobile Fixes */
+@media (max-width: 768px) {
+    [data-theme="dark"] .sidebar.mobile-open {
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    }
+
+    [data-theme="dark"] .sidebar-overlay.active {
+        background: rgba(0, 0, 0, 0.7);
+    }
+}
+
 /* Accent Color Variables */
 [data-accent="blue"] {
     --accent-color: #3b82f6;
