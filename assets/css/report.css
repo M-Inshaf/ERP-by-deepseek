@@ -1,0 +1,139 @@
+/* ============================================
+   HUMMINGBIRD ERP - REPORTS & PRINT STYLES
+   ============================================ */
+
+/* Report Container */
+.report-container {
+    background: white;
+    padding: 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.report-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 3px double var(--border-color);
+}
+
+.report-header .company-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    letter-spacing: 1px;
+}
+
+.report-header .report-title {
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 8px;
+}
+
+.report-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Report Table */
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.report-table th {
+    background: #f8f9fa;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.85rem;
+    border: 1px solid #dee2e6;
+}
+
+.report-table td {
+    padding: 10px 16px;
+    border: 1px solid #dee2e6;
+    font-size: 0.85rem;
+}
+
+.report-table .total-row {
+    font-weight: 700;
+    background: #f8f9fa;
+}
+
+/* Report Summary Cards */
+.report-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.report-summary-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 20px;
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.report-summary-card .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+.report-summary-card .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-top: 4px;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .sidebar,
+    .topbar,
+    .btn,
+    .filter-bar,
+    .modal-overlay,
+    .toast-container,
+    .actions-cell,
+    .no-print {
+        display: none !important;
+    }
+    
+    .main-content {
+        margin-left: 0 !important;
+    }
+    
+    .module-container {
+        padding: 0 !important;
+    }
+    
+    .data-table-container,
+    .glass-card {
+        box-shadow: none !important;
+        border: 1px solid #dee2e6 !important;
+        backdrop-filter: none !important;
+    }
+    
+    .data-table thead th {
+        background: #f8f9fa !important;
+        color: black !important;
+    }
+    
+    @page {
+        margin: 1.5cm;
+        size: A4;
+    }
+}
