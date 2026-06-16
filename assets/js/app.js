@@ -531,3 +531,248 @@ document.addEventListener('DOMContentLoaded', () => {
     window.app = app;
     window.navigateTo = (module) => app.navigateTo(module);
 });
+
+// Inside the HummingbirdERP class, add:
+
+constructor() {
+    // ... existing code ...
+    this.isMobile = false;
+    this.touchStartX = 0;
+    this.touchStartY = 0;
+    this.initMobileDetection();
+}
+
+// Mobile detection
+initMobileDetection() {
+    this.checkMobile();
+    window.addEventListener('resize', () => this.checkMobile());
+    
+    // Add swipe gestures for sidebar
+    document.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
+    document.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
+}
+
+checkMobile() {
+    this.isMobile = window.innerWidth <= 768;
+    
+    if (this.isMobile) {
+        document.body.classList.add('is-mobile');
+        document.body.classList.remove('is-desktop');
+        // Add overlay for sidebar
+        this.createSidebarOverlay();
+        // Add close button to sidebar
+        this.addMobileSidebarClose();
+    } else {
+        document.body.classList.remove('is-mobile');
+        document.body.classList.add('is-desktop');
+        document.getElementById('sidebar')?.classList.remove('mobile-open');
+        this.removeSidebarOverlay();
+    }
+}
+
+// Create overlay for mobile sidebar
+createSidebarOverlay() {
+    if (!document.getElementById('sidebarOverlay')) {
+        const overlay = document.createElement('div');
+        overlay.id = 'sidebarOverlay';
+        overlay.className = 'sidebar-overlay';
+        overlay.addEventListener('click', () => this.closeMobileSidebar());
+        document.body.appendChild(overlay);
+    }
+}
+
+removeSidebarOverlay() {
+    const overlay = document.getElementById('sidebarOverlay');
+    if (overlay) overlay.remove();
+}
+
+// Add close button for mobile sidebar
+addMobileSidebarClose() {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar && !sidebar.querySelector('.sidebar-close-mobile')) {
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'sidebar-close-mobile';
+        closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+        closeBtn.addEventListener('click', () => this.closeMobileSidebar());
+        sidebar.querySelector('.sidebar-header').appendChild(closeBtn);
+    }
+}
+
+// Toggle sidebar (updated for mobile)
+toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    
+    if (this.isMobile) {
+        if (sidebar.classList.contains('mobile-open')) {
+            this.closeMobileSidebar();
+        } else {
+            sidebar.classList.add('mobile-open');
+            if (overlay) overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    } else {
+        sidebar.classList.toggle('collapsed');
+    }
+}
+
+closeMobileSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    
+    sidebar.classList.remove('mobile-open');
+    if (overlay) overlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Swipe gestures
+handleTouchStart(e) {
+    this.touchStartX = e.touches[0].clientX;
+    this.touchStartY = e.touches[0].clientY;
+}
+
+handleTouchEnd(e) {
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const diffX = touchEndX - this.touchStartX;
+    const diffY = touchEndY - this.touchStartY;
+    
+    // Swipe right to open sidebar
+    if (this.isMobile && 
+        Math.abs(diffX) > Math.abs(diffY) && 
+        Math.abs(diffX) > 80 && 
+        diffX > 0 &&
+        this.touchStartX < 40) {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.add('mobile-open');
+        const overlay = document.getElementById('sidebarOverlay');
+        if (overlay) overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Swipe left to close sidebar
+    if (this.isMobile && 
+        Math.abs(diffX) > Math.abs(diffY) && 
+        Math.abs(diffX) > 80 && 
+        diffX < 0) {
+        this.closeMobileSidebar();
+    }
+}
+
+// Navigate to module (updated to close mobile sidebar)
+navigateTo(moduleName) {
+    // ... existing navigation code ...
+    
+    // Close mobile sidebar after navigation
+    if (this.isMobile) {
+        this.closeMobileSidebar();
+    }
+    
+    // Scroll to top on mobile
+    if (this.isMobile) {
+        document.getElementById('moduleContainer').scrollTop = 0;
+    }
+}
+
+// Handle resize
+handleResize() {
+    this.checkMobile();
+    if (window.innerWidth > 768) {
+        document.getElementById('sidebar').classList.remove('mobile-open');
+        document.body.style.overflow = '';
+    }
+}
+
+// Switch theme (updated for mobile)
+switchTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    db.updateSettings({ theme });
+    
+    document.querySelectorAll('.btn-theme').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.theme === theme) btn.classList.add('active');
+    });
+    
+    // Save preference
+    localStorage.setItem('hummingbird_theme', theme);
+}
+
+// Global search
+globalSearch(query) {
+    if (!query || query.trim() === '') return;
+    
+    query = query.toLowerCase().trim();
+    
+    // Search across all modules
+    const searchableModules = [
+        'customers', 'suppliers', 'subGarments', 'production', 
+        'finishing', 'payments', 'inventory', 'fabric'
+    ];
+    
+    let results = [];
+    
+    searchableModules.forEach(module => {
+        const items = db.getCollection(module);
+        items.forEach(item => {
+            const searchString = JSON.stringify(item).toLowerCase();
+            if (searchString.includes(query)) {
+                results.push({
+                    module: module,
+                    item: item,
+                    id: item.id
+                });
+            }
+        });
+    });
+    
+    if (results.length === 1) {
+        // Navigate to the module and highlight the item
+        this.navigateTo(results[0].module);
+        this.showToast(`Found in ${results[0].module}`, 'info');
+    } else if (results.length > 1) {
+        // Show results overview
+        this.showToast(`Found ${results.length} results across ${[...new Set(results.map(r => r.module))].length} modules`, 'info');
+    } else {
+        this.showToast('No results found', 'warning');
+    }
+}
+
+// Keyboard shortcut handler
+setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        // Ctrl+K or Cmd+K for global search
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('globalSearch')?.focus();
+        }
+        
+        // Escape to close modals/sidebar
+        if (e.key === 'Escape') {
+            if (this.isMobile) {
+                this.closeMobileSidebar();
+            }
+            this.closeModal();
+        }
+    });
+}
+
+// Confirm dialog
+showConfirm(title, message, callback) {
+    document.getElementById('confirmTitle').textContent = title;
+    document.getElementById('confirmMessage').textContent = message;
+    document.getElementById('confirmOverlay').style.display = 'flex';
+    
+    this._confirmCallback = callback;
+}
+
+closeConfirm() {
+    document.getElementById('confirmOverlay').style.display = 'none';
+    this._confirmCallback = null;
+}
+
+executeConfirm() {
+    if (this._confirmCallback) {
+        this._confirmCallback();
+    }
+    this.closeConfirm();
+}
