@@ -1,0 +1,214 @@
+/* ============================================
+   HUMMINGBIRD ERP - PREMIUM MODALS
+   ============================================ */
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: var(--z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Modal Container */
+.modal-container {
+    background: var(--card-bg);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    width: 90%;
+    max-width: 650px;
+    max-height: 85vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active .modal-container {
+    transform: scale(1);
+}
+
+/* Modal Sizes */
+.modal-sm {
+    max-width: 420px;
+}
+
+.modal-lg {
+    max-width: 900px;
+}
+
+.modal-xl {
+    max-width: 1100px;
+    max-height: 90vh;
+}
+
+.modal-full {
+    max-width: 95%;
+    max-height: 95vh;
+}
+
+/* Modal Header */
+.modal-header {
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-secondary);
+}
+
+.modal-header h3 {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.modal-header h3 i {
+    color: var(--accent-color);
+}
+
+.btn-close {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-close:hover {
+    background: var(--danger-color);
+    color: white;
+    transform: rotate(90deg);
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 28px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Modal Footer */
+.modal-footer {
+    padding: 16px 28px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+    background: var(--bg-secondary);
+}
+
+/* Modal with Steps */
+.modal-steps {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.modal-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
+
+.modal-step::after {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 60%;
+    width: 80%;
+    height: 2px;
+    background: var(--border-color);
+}
+
+.modal-step:last-child::after {
+    display: none;
+}
+
+.modal-step-number {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    color: var(--text-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 8px;
+    font-weight: 700;
+    font-size: var(--font-size-sm);
+    position: relative;
+    z-index: 1;
+}
+
+.modal-step.active .modal-step-number {
+    background: var(--accent-color);
+    color: white;
+}
+
+.modal-step.completed .modal-step-number {
+    background: var(--success-color);
+    color: white;
+}
+
+.modal-step-label {
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+    font-weight: 500;
+}
+
+.modal-step.active .modal-step-label {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* Slide-in Panel (for details) */
+.slide-panel {
+    position: fixed;
+    top: 0;
+    right: -600px;
+    width: 600px;
+    max-width: 95vw;
+    height: 100vh;
+    background: var(--card-bg);
+    box-shadow: var(--shadow-xl);
+    z-index: calc(var(--z-modal) + 10);
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.slide-panel.open {
+    right: 0;
+}
