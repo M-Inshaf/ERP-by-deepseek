@@ -7,6 +7,7 @@ class FilterSystem {
         this.moduleName = moduleName;
         this.containerId = containerId;
         this.filters = {};
+        this._debounceTimer = null;
     }
 
     render() {
@@ -36,7 +37,7 @@ class FilterSystem {
                     </div>
                     <div class="filter-group" id="${this.moduleName}ExtraFilters"></div>
                     <div class="filter-actions">
-                        <button class="btn btn-primary btn-sm" onclick="window.${this.moduleName}Filter?.applyFilters()">
+                        <button class="btn btn-primary btn-sm btn-lift" onclick="window.${this.moduleName}Filter?.applyFilters()">
                             <i class="fas fa-filter"></i> Apply
                         </button>
                         <button class="btn btn-secondary btn-sm" onclick="window.${this.moduleName}Filter?.resetFilters()">
@@ -109,7 +110,6 @@ class FilterSystem {
     }
 
     updateTable(items) {
-        // This should be overridden by the module
         if (window.app) {
             app.renderTable(this.moduleName, items);
         }
