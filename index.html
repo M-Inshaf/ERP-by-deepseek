@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <!-- Electron CSP (only active in Electron, ignored by browsers) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; img-src 'self' data: blob:; font-src 'self' https://cdnjs.cloudflare.com;">
+    <!-- Content Security Policy (works in both browser and Electron) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: blob:; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com;">
     
     <title>Hummingbird Clothing ERP - FujiSan Lanka Pvt Ltd</title>
     
@@ -24,44 +24,101 @@
     <!-- Core CSS -->
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="assets/css/theme.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
     <link rel="stylesheet" href="assets/css/forms.css">
     <link rel="stylesheet" href="assets/css/tables.css">
     <link rel="stylesheet" href="assets/css/modals.css">
     <link rel="stylesheet" href="assets/css/reports.css">
     <link rel="stylesheet" href="assets/css/pdf-theme.css">
-    <link rel="stylesheet" href="assets/css/animations.css">
     
+    <!-- Critical Inline Styles for Instant Render -->
     <style>
-        /* Critical inline styles for instant render */
-        body { margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+        }
+        
         #app-loading { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #f8fafc; display: flex; align-items: center; justify-content: center; 
-            z-index: 9999; transition: opacity 0.3s ease;
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: #f8fafc; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 9999; 
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        #app-loading.hidden { opacity: 0; pointer-events: none; }
-        .loading-content { text-align: center; }
+        
+        #app-loading.hidden { 
+            opacity: 0; 
+            visibility: hidden;
+            pointer-events: none; 
+        }
+        
+        .loading-content { 
+            text-align: center; 
+        }
+        
+        .loading-logo {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            animation: float 2s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
         .loading-spinner {
-            width: 50px; height: 50px; border: 3px solid #e2e8f0;
-            border-top-color: #3b82f6; border-radius: 50%;
-            animation: spin 0.8s linear infinite; margin: 0 auto 20px;
+            width: 48px;
+            height: 48px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loading-text { color: #475569; font-size: 1rem; font-weight: 500; }
+        
+        @keyframes spin { 
+            to { transform: rotate(360deg); } 
+        }
+        
+        .loading-text { 
+            color: #475569; 
+            font-size: 0.95rem; 
+            font-weight: 500;
+        }
+        
+        .loading-subtext {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body>
     
-    <!-- Loading Screen -->
+    <!-- ============================================ -->
+    <!-- LOADING SCREEN -->
+    <!-- ============================================ -->
     <div id="app-loading">
         <div class="loading-content">
+            <div class="loading-logo">🪶</div>
             <div class="loading-spinner"></div>
             <div class="loading-text">Loading Hummingbird ERP...</div>
+            <div class="loading-subtext">FujiSan Lanka Pvt Ltd</div>
         </div>
     </div>
     
-    <!-- App Container -->
+    <!-- ============================================ -->
+    <!-- APP CONTAINER -->
+    <!-- ============================================ -->
     <div class="app-container" id="appContainer" style="display: none;">
         
         <!-- ============================================ -->
@@ -87,7 +144,7 @@
                 <ul class="nav-list">
                     <!-- Dashboard -->
                     <li class="nav-item active" data-module="dashboard">
-                        <a href="#" onclick="app.navigateTo('dashboard'); return false;">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('dashboard');">
                             <i class="fas fa-th-large"></i>
                             <span>Dashboard</span>
                         </a>
@@ -95,7 +152,7 @@
                     
                     <!-- Customers -->
                     <li class="nav-item" data-module="customers">
-                        <a href="#" onclick="app.navigateTo('customers'); return false;">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('customers');">
                             <i class="fas fa-users"></i>
                             <span>Customers</span>
                         </a>
@@ -103,7 +160,7 @@
                     
                     <!-- Suppliers -->
                     <li class="nav-item" data-module="suppliers">
-                        <a href="#" onclick="app.navigateTo('suppliers'); return false;">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('suppliers');">
                             <i class="fas fa-truck"></i>
                             <span>Suppliers</span>
                         </a>
@@ -111,7 +168,7 @@
                     
                     <!-- Inventory -->
                     <li class="nav-item" data-module="inventory">
-                        <a href="#" onclick="app.navigateTo('inventory'); return false;">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('inventory');">
                             <i class="fas fa-boxes"></i>
                             <span>Inventory</span>
                         </a>
@@ -125,14 +182,14 @@
                             <i class="fas fa-chevron-down submenu-arrow"></i>
                         </a>
                         <ul class="submenu" id="materials-submenu">
-                            <li><a href="#" onclick="app.navigateTo('fabric'); return false;">Fabric Management</a></li>
-                            <li><a href="#" onclick="app.navigateTo('accessories'); return false;">Accessories</a></li>
+                            <li><a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('fabric');">Fabric Management</a></li>
+                            <li><a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('accessories');">Accessories</a></li>
                         </ul>
                     </li>
                     
                     <!-- Sub Garments -->
                     <li class="nav-item" data-module="sub-garments">
-                        <a href="#" onclick="app.navigateTo('sub-garments'); return false;">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('sub-garments');">
                             <i class="fas fa-tshirt"></i>
                             <span>Sub Garments</span>
                         </a>
@@ -140,7 +197,7 @@
                     
                     <!-- Production -->
                     <li class="nav-item" data-module="production">
-                        <a href="#" onclick="app.navigateTo('production'); return false;">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('production');">
                             <i class="fas fa-industry"></i>
                             <span>Production</span>
                         </a>
@@ -148,7 +205,7 @@
                     
                     <!-- Finishing -->
                     <li class="nav-item" data-module="finishing">
-                        <a href="#" onclick="app.navigateTo('finishing'); return false;">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('finishing');">
                             <i class="fas fa-check-double"></i>
                             <span>Finishing</span>
                         </a>
@@ -156,7 +213,7 @@
                     
                     <!-- Payments -->
                     <li class="nav-item" data-module="payments">
-                        <a href="#" onclick="app.navigateTo('payments'); return false;">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('payments');">
                             <i class="fas fa-money-bill-wave"></i>
                             <span>Payments</span>
                         </a>
@@ -164,7 +221,7 @@
                     
                     <!-- Ledger -->
                     <li class="nav-item" data-module="ledger">
-                        <a href="#" onclick="app.navigateTo('ledger'); return false;">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('ledger');">
                             <i class="fas fa-book"></i>
                             <span>Ledger</span>
                         </a>
@@ -172,7 +229,7 @@
                     
                     <!-- Expenses -->
                     <li class="nav-item" data-module="expenses">
-                        <a href="#" onclick="app.navigateTo('expenses'); return false;">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('expenses');">
                             <i class="fas fa-receipt"></i>
                             <span>Expenses</span>
                         </a>
@@ -180,7 +237,7 @@
                     
                     <!-- Cheques -->
                     <li class="nav-item" data-module="cheques">
-                        <a href="#" onclick="app.navigateTo('cheques'); return false;">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('cheques');">
                             <i class="fas fa-money-check"></i>
                             <span>Cheques</span>
                         </a>
@@ -188,7 +245,7 @@
                     
                     <!-- Staff -->
                     <li class="nav-item" data-module="staff">
-                        <a href="#" onclick="app.navigateTo('staff'); return false;">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('staff');">
                             <i class="fas fa-user-tie"></i>
                             <span>Staff</span>
                         </a>
@@ -196,9 +253,17 @@
                     
                     <!-- Reports -->
                     <li class="nav-item" data-module="reports">
-                        <a href="#" onclick="app.navigateTo('reports'); return false;">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('reports');">
                             <i class="fas fa-chart-bar"></i>
                             <span>Reports</span>
+                        </a>
+                    </li>
+                    
+                    <!-- Settings -->
+                    <li class="nav-item" data-module="settings">
+                        <a href="#" onclick="event.preventDefault(); if(window.app) app.navigateTo('settings');">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
                         </a>
                     </li>
                 </ul>
@@ -214,7 +279,7 @@
                         <span class="user-role">Administrator</span>
                     </div>
                 </div>
-                <button class="btn-settings" onclick="app.navigateTo('settings'); return false;" title="Settings">
+                <button class="btn-settings" onclick="event.preventDefault(); if(window.app) app.navigateTo('settings');" title="Settings">
                     <i class="fas fa-cog"></i>
                 </button>
             </div>
@@ -234,12 +299,12 @@
                     <h1 class="page-title" id="pageTitle">Dashboard</h1>
                 </div>
                 
+                <!-- Global Search -->
                 <div class="topbar-center">
-                    <!-- Quick Search -->
                     <div class="global-search">
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Global search... (Ctrl+K)" id="globalSearch"
-                               onkeydown="if(event.key==='Enter') app.globalSearch(this.value)">
+                               onkeydown="if(event.key==='Enter' && window.app) app.globalSearch(this.value)">
                     </div>
                 </div>
                 
@@ -247,11 +312,13 @@
                     <!-- Theme Switcher -->
                     <div class="theme-switcher">
                         <button class="btn-theme active" data-theme="light" 
-                                onclick="app.switchTheme('light')" title="Light Mode">
+                                onclick="event.preventDefault(); if(window.app) app.switchTheme('light');" 
+                                title="Light Mode">
                             <i class="fas fa-sun"></i>
                         </button>
                         <button class="btn-theme" data-theme="dark" 
-                                onclick="app.switchTheme('dark')" title="Dark Mode">
+                                onclick="event.preventDefault(); if(window.app) app.switchTheme('dark');" 
+                                title="Dark Mode">
                             <i class="fas fa-moon"></i>
                         </button>
                     </div>
@@ -264,13 +331,13 @@
                     
                     <!-- Quick Actions -->
                     <div class="quick-actions">
-                        <button class="btn-icon" onclick="app.backupData()" title="Backup Data">
+                        <button class="btn-icon" onclick="event.preventDefault(); if(window.app) app.backupData();" title="Backup Data">
                             <i class="fas fa-download"></i>
                         </button>
-                        <button class="btn-icon" onclick="app.restoreData()" title="Restore Data">
+                        <button class="btn-icon" onclick="event.preventDefault(); if(window.app) app.restoreData();" title="Restore Data">
                             <i class="fas fa-upload"></i>
                         </button>
-                        <button class="btn-icon" onclick="window.print()" title="Print Current View">
+                        <button class="btn-icon" onclick="window.print();" title="Print Current View">
                             <i class="fas fa-print"></i>
                         </button>
                     </div>
@@ -280,6 +347,13 @@
             <!-- Module Content Container -->
             <div class="module-container" id="moduleContainer">
                 <!-- Dynamic module content rendered here by app.js -->
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                    <div style="text-align: center; color: var(--text-tertiary);">
+                        <i class="fas fa-feather-alt" style="font-size: 4rem; opacity: 0.3; margin-bottom: 16px;"></i>
+                        <h3 style="font-weight: 600;">Welcome to Hummingbird ERP</h3>
+                        <p>Select a module from the sidebar to get started</p>
+                    </div>
+                </div>
             </div>
             
         </main>
@@ -288,16 +362,11 @@
     <!-- ============================================ -->
     <!-- MODAL OVERLAY -->
     <!-- ============================================ -->
-    <div class="modal-overlay" id="modalOverlay" onclick="if(event.target === this) app.closeModal()">
+    <div class="modal-overlay" id="modalOverlay">
         <div class="modal-container" id="modalContainer">
             <!-- Dynamic modal content -->
         </div>
     </div>
-    
-    <!-- ============================================ -->
-    <!-- TOAST NOTIFICATION CONTAINER -->
-    <!-- ============================================ -->
-    <div class="toast-container" id="toastContainer"></div>
     
     <!-- ============================================ -->
     <!-- CONFIRMATION DIALOG -->
@@ -306,16 +375,24 @@
         <div class="modal-container modal-sm">
             <div class="modal-header">
                 <h3 id="confirmTitle">Confirm Action</h3>
+                <button class="btn-close" onclick="if(window.app) app.closeConfirm();">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="modal-body">
-                <p id="confirmMessage">Are you sure?</p>
+                <p id="confirmMessage">Are you sure you want to proceed?</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="app.closeConfirm()">Cancel</button>
-                <button class="btn btn-danger" id="confirmBtn" onclick="app.executeConfirm()">Confirm</button>
+                <button class="btn btn-secondary" onclick="if(window.app) app.closeConfirm();">Cancel</button>
+                <button class="btn btn-danger" id="confirmBtn" onclick="if(window.app) app.executeConfirm();">Confirm</button>
             </div>
         </div>
     </div>
+    
+    <!-- ============================================ -->
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <!-- ============================================ -->
+    <div class="toast-container" id="toastContainer"></div>
     
     <!-- ============================================ -->
     <!-- JAVASCRIPT LIBRARIES (CDN) -->
@@ -329,25 +406,25 @@
     <!-- Excel Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
-    <!-- Charts -->
+    <!-- Charts.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
     <!-- FileSaver (for Electron compatibility) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     
     <!-- ============================================ -->
-    <!-- APPLICATION SCRIPTS -->
+    <!-- APPLICATION SCRIPTS (Load Order Matters) -->
     <!-- ============================================ -->
     
-    <!-- Core Engine -->
+    <!-- 1. Core Engine (must be first) -->
     <script src="assets/js/storage.js"></script>
     
-    <!-- Utility Modules -->
+    <!-- 2. Utility Modules -->
     <script src="assets/js/filters.js"></script>
     <script src="assets/js/actions.js"></script>
     <script src="assets/js/pdf-engine.js"></script>
     
-    <!-- Business Modules -->
+    <!-- 3. Business Modules -->
     <script src="assets/js/dashboard.js"></script>
     <script src="assets/js/subgarments.js"></script>
     <script src="assets/js/production.js"></script>
@@ -363,11 +440,11 @@
     <script src="assets/js/cheques.js"></script>
     <script src="assets/js/staff.js"></script>
     
-    <!-- Reports & Settings -->
+    <!-- 4. Reports & Settings -->
     <script src="assets/js/reports.js"></script>
     <script src="assets/js/settings.js"></script>
     
-    <!-- Main App (must be last) -->
+    <!-- 5. Main App (must be last) -->
     <script src="assets/js/app.js"></script>
     
     <!-- ============================================ -->
@@ -377,70 +454,93 @@
         // Detect if running in Electron
         window.isElectron = !!(window.process && window.process.type);
         
-        // Electron-specific features
         if (window.isElectron) {
-            console.log('Running in Electron desktop mode');
-            
-            // You can access Electron APIs here
-            // const { ipcRenderer } = require('electron');
-            
-            // Example: Handle file dialogs natively
-            // ipcRenderer.on('menu-action', (event, action) => {
-            //     switch(action) {
-            //         case 'backup': app.backupData(); break;
-            //         case 'restore': app.restoreData(); break;
-            //     }
-            // });
+            console.log('🐦 Hummingbird ERP running in Electron desktop mode');
         } else {
-            console.log('Running in browser mode');
+            console.log('🌐 Hummingbird ERP running in browser mode');
         }
         
         // Handle beforeunload for both browser and Electron
         window.addEventListener('beforeunload', (e) => {
-            // Auto-save on close
             if (window.app) {
                 app.saveCurrentModule();
             }
         });
     </script>
     
-    <!-- Initialize Application -->
+    <!-- ============================================ -->
+    <!-- APP INITIALIZATION -->
+    <!-- ============================================ -->
     <script>
         // Wait for DOM and all scripts to load
         window.addEventListener('DOMContentLoaded', () => {
-            // Hide loading screen with animation
+            console.log('📦 DOM ready, initializing Hummingbird ERP v2.0...');
+            
+            // Small delay for smooth loading experience
             setTimeout(() => {
                 const loading = document.getElementById('app-loading');
                 const appContainer = document.getElementById('appContainer');
                 
-                loading.classList.add('hidden');
-                appContainer.style.display = 'flex';
+                // Hide loading screen
+                if (loading) {
+                    loading.classList.add('hidden');
+                }
                 
-                // Initialize app
-                window.app = new HummingbirdERP();
+                // Show app
+                if (appContainer) {
+                    appContainer.style.display = 'flex';
+                }
+                
+                // Initialize the application
+                try {
+                    window.app = new HummingbirdERP();
+                    console.log('✅ Hummingbird ERP initialized successfully!');
+                } catch (error) {
+                    console.error('❌ Failed to initialize app:', error);
+                    document.getElementById('moduleContainer').innerHTML = `
+                        <div style="padding: 40px; text-align: center;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444;"></i>
+                            <h3 style="margin-top: 16px;">Initialization Error</h3>
+                            <p style="color: #64748b;">${error.message}</p>
+                            <p style="color: #94a3b8; font-size: 0.85rem;">Check the browser console (F12) for details.</p>
+                            <button class="btn btn-primary" onclick="location.reload();" style="margin-top: 16px;">
+                                <i class="fas fa-redo"></i> Reload Application
+                            </button>
+                        </div>
+                    `;
+                }
                 
                 // Remove loading screen after transition
-                setTimeout(() => {
-                    loading.remove();
-                }, 300);
+                if (loading) {
+                    setTimeout(() => {
+                        if (loading.parentNode) {
+                            loading.remove();
+                        }
+                    }, 300);
+                }
                 
-            }, 500); // Short delay for smooth loading experience
+            }, 600);
         });
         
         // Global error handler
         window.addEventListener('error', (e) => {
-            console.error('Application Error:', e.error);
-            if (window.app) {
-                app.showToast('An error occurred. Please try again.', 'error');
+            console.error('🚨 Application Error:', e.error);
+            if (window.app && e.error && !e.error.message.includes('Script error')) {
+                app.showToast('An error occurred. Check console for details.', 'error');
             }
         });
         
         // Handle unhandled promise rejections
         window.addEventListener('unhandledrejection', (e) => {
-            console.error('Unhandled Promise Rejection:', e.reason);
-            if (window.app) {
-                app.showToast('Operation failed. Please try again.', 'error');
-            }
+            console.error('⚠️ Unhandled Promise Rejection:', e.reason);
+        });
+        
+        // Log when everything is fully loaded
+        window.addEventListener('load', () => {
+            console.log('🎯 Hummingbird ERP fully loaded and ready!');
+            console.log('   Version: 2.0.0');
+            console.log('   Storage: Local JSON');
+            console.log('   Platform:', window.isElectron ? 'Electron Desktop' : 'Web Browser');
         });
     </script>
     
