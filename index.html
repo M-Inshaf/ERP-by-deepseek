@@ -39,6 +39,7 @@
 </head>
 <body>
     
+    <!-- LOADING SCREEN -->
     <div id="app-loading">
         <div class="loading-content">
             <div class="loading-logo">🪶</div>
@@ -48,126 +49,231 @@
         </div>
     </div>
     
+    <!-- APP CONTAINER -->
     <div class="app-container" id="appContainer" style="display:none;">
         
+        <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo-container">
                     <div class="logo-icon"><i class="fas fa-feather-alt"></i></div>
                     <div class="logo-text"><h2>Hummingbird</h2><span>Clothing ERP</span></div>
                 </div>
-                <button class="sidebar-collapse" id="sidebarCollapse" title="Collapse Sidebar"><i class="fas fa-chevron-left"></i></button>
+                <button class="sidebar-collapse" id="sidebarCollapse" title="Collapse Sidebar">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
             </div>
             
             <nav class="sidebar-nav">
                 <ul class="nav-list">
+                    
+                    <!-- Dashboard -->
                     <li class="nav-item active" data-module="dashboard">
-                        <a href="#" data-nav="dashboard"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
+                        <a href="#" data-nav="dashboard">
+                            <i class="fas fa-th-large"></i><span>Dashboard</span>
+                        </a>
                     </li>
+                    
+                    <!-- Customers -->
                     <li class="nav-item" data-module="customers">
-                        <a href="#" data-nav="customers"><i class="fas fa-users"></i><span>Customers</span></a>
+                        <a href="#" data-nav="customers">
+                            <i class="fas fa-users"></i><span>Customers</span>
+                        </a>
                     </li>
+                    
+                    <!-- Suppliers -->
                     <li class="nav-item" data-module="suppliers">
-                        <a href="#" data-nav="suppliers"><i class="fas fa-truck"></i><span>Suppliers</span></a>
+                        <a href="#" data-nav="suppliers">
+                            <i class="fas fa-truck"></i><span>Suppliers</span>
+                        </a>
                     </li>
+                    
+                    <!-- Inventory -->
                     <li class="nav-item" data-module="inventory">
-                        <a href="#" data-nav="inventory"><i class="fas fa-boxes"></i><span>Inventory</span></a>
+                        <a href="#" data-nav="inventory">
+                            <i class="fas fa-boxes"></i><span>Inventory</span>
+                        </a>
                     </li>
-                    <li class="nav-item has-submenu" data-module="materials">
-                        <a href="#" data-nav="materials" class="submenu-toggle"><i class="fas fa-layer-group"></i><span>Materials</span><i class="fas fa-chevron-down submenu-arrow"></i></a>
+                    
+                    <!-- Materials (Submenu Only - NOT clickable) -->
+                    <li class="nav-item has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-layer-group"></i><span>Materials</span>
+                            <i class="fas fa-chevron-down submenu-arrow"></i>
+                        </a>
                         <ul class="submenu" id="materials-submenu">
-                            <li><a href="#" data-nav="fabric">Fabric Management</a></li>
-                            <li><a href="#" data-nav="accessories">Accessories</a></li>
+                            <li data-module="fabric">
+                                <a href="#" data-nav="fabric">Fabric Management</a>
+                            </li>
+                            <li data-module="accessories">
+                                <a href="#" data-nav="accessories">Accessories</a>
+                            </li>
                         </ul>
                     </li>
+                    
+                    <!-- Sub Garments -->
                     <li class="nav-item" data-module="sub-garments">
-                        <a href="#" data-nav="sub-garments"><i class="fas fa-tshirt"></i><span>Sub Garments</span></a>
+                        <a href="#" data-nav="sub-garments">
+                            <i class="fas fa-tshirt"></i><span>Sub Garments</span>
+                        </a>
                     </li>
+                    
+                    <!-- Production -->
                     <li class="nav-item" data-module="production">
-                        <a href="#" data-nav="production"><i class="fas fa-industry"></i><span>Production</span></a>
+                        <a href="#" data-nav="production">
+                            <i class="fas fa-industry"></i><span>Production</span>
+                        </a>
                     </li>
+                    
+                    <!-- Finishing -->
                     <li class="nav-item" data-module="finishing">
-                        <a href="#" data-nav="finishing"><i class="fas fa-check-double"></i><span>Finishing</span></a>
+                        <a href="#" data-nav="finishing">
+                            <i class="fas fa-check-double"></i><span>Finishing</span>
+                        </a>
                     </li>
+                    
+                    <!-- Payments -->
                     <li class="nav-item" data-module="payments">
-                        <a href="#" data-nav="payments"><i class="fas fa-money-bill-wave"></i><span>Payments</span></a>
+                        <a href="#" data-nav="payments">
+                            <i class="fas fa-money-bill-wave"></i><span>Payments</span>
+                        </a>
                     </li>
+                    
+                    <!-- Ledger -->
                     <li class="nav-item" data-module="ledger">
-                        <a href="#" data-nav="ledger"><i class="fas fa-book"></i><span>Ledger</span></a>
+                        <a href="#" data-nav="ledger">
+                            <i class="fas fa-book"></i><span>Ledger</span>
+                        </a>
                     </li>
+                    
+                    <!-- Expenses -->
                     <li class="nav-item" data-module="expenses">
-                        <a href="#" data-nav="expenses"><i class="fas fa-receipt"></i><span>Expenses</span></a>
+                        <a href="#" data-nav="expenses">
+                            <i class="fas fa-receipt"></i><span>Expenses</span>
+                        </a>
                     </li>
+                    
+                    <!-- Cheques -->
                     <li class="nav-item" data-module="cheques">
-                        <a href="#" data-nav="cheques"><i class="fas fa-money-check"></i><span>Cheques</span></a>
+                        <a href="#" data-nav="cheques">
+                            <i class="fas fa-money-check"></i><span>Cheques</span>
+                        </a>
                     </li>
+                    
+                    <!-- Staff -->
                     <li class="nav-item" data-module="staff">
-                        <a href="#" data-nav="staff"><i class="fas fa-user-tie"></i><span>Staff</span></a>
+                        <a href="#" data-nav="staff">
+                            <i class="fas fa-user-tie"></i><span>Staff</span>
+                        </a>
                     </li>
+                    
+                    <!-- Reports -->
                     <li class="nav-item" data-module="reports">
-                        <a href="#" data-nav="reports"><i class="fas fa-chart-bar"></i><span>Reports</span></a>
+                        <a href="#" data-nav="reports">
+                            <i class="fas fa-chart-bar"></i><span>Reports</span>
+                        </a>
                     </li>
+                    
+                    <!-- Settings -->
                     <li class="nav-item" data-module="settings">
-                        <a href="#" data-nav="settings"><i class="fas fa-cog"></i><span>Settings</span></a>
+                        <a href="#" data-nav="settings">
+                            <i class="fas fa-cog"></i><span>Settings</span>
+                        </a>
                     </li>
+                    
                 </ul>
             </nav>
             
             <div class="sidebar-footer">
                 <div class="user-info">
                     <div class="user-avatar"><i class="fas fa-user-circle"></i></div>
-                    <div class="user-details"><span class="user-name">Admin User</span><span class="user-role">Administrator</span></div>
+                    <div class="user-details">
+                        <span class="user-name">Admin User</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
                 </div>
-                <button class="btn-settings" onclick="event.preventDefault(); if(window.app) app.navigateTo('settings');" title="Settings"><i class="fas fa-cog"></i></button>
             </div>
         </aside>
         
+        <!-- MAIN CONTENT -->
         <main class="main-content" id="mainContent">
+            
+            <!-- TOP BAR -->
             <header class="topbar">
                 <div class="topbar-left">
-                    <button class="btn-menu-toggle" id="menuToggle" title="Toggle Menu"><i class="fas fa-bars"></i></button>
+                    <button class="btn-menu-toggle" id="menuToggle" title="Toggle Menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
                     <h1 class="page-title" id="pageTitle">Dashboard</h1>
                 </div>
+                
                 <div class="topbar-center">
                     <div class="global-search">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Global search... (Ctrl+K)" id="globalSearch" onkeydown="if(event.key==='Enter' && window.app) app.globalSearch(this.value)">
+                        <input type="text" placeholder="Global search... (Ctrl+K)" id="globalSearch">
                     </div>
                 </div>
+                
                 <div class="topbar-right">
+                    <!-- Theme Switcher -->
                     <div class="theme-switcher">
-                        <button class="btn-theme active" data-theme="light" onclick="event.preventDefault(); if(window.app) app.switchTheme('light');" title="Light Mode"><i class="fas fa-sun"></i></button>
-                        <button class="btn-theme" data-theme="dark" onclick="event.preventDefault(); if(window.app) app.switchTheme('dark');" title="Dark Mode"><i class="fas fa-moon"></i></button>
+                        <button class="btn-theme active" data-theme="light" title="Light Mode">
+                            <i class="fas fa-sun"></i>
+                        </button>
+                        <button class="btn-theme" data-theme="dark" title="Dark Mode">
+                            <i class="fas fa-moon"></i>
+                        </button>
                     </div>
-                    <div class="date-display"><i class="fas fa-calendar-alt"></i><span id="currentDate"></span></div>
+                    
+                    <div class="date-display">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span id="currentDate"></span>
+                    </div>
+                    
                     <div class="quick-actions">
-                        <button class="btn-icon" onclick="event.preventDefault(); if(window.app) app.backupData();" title="Backup"><i class="fas fa-download"></i></button>
-                        <button class="btn-icon" onclick="event.preventDefault(); if(window.app) app.restoreData();" title="Restore"><i class="fas fa-upload"></i></button>
-                        <button class="btn-icon" onclick="window.print();" title="Print"><i class="fas fa-print"></i></button>
+                        <button class="btn-icon" onclick="if(window.app) app.backupData();" title="Backup">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="btn-icon" onclick="if(window.app) app.restoreData();" title="Restore">
+                            <i class="fas fa-upload"></i>
+                        </button>
+                        <button class="btn-icon" onclick="window.print();" title="Print">
+                            <i class="fas fa-print"></i>
+                        </button>
                     </div>
                 </div>
             </header>
-            <div class="module-container" id="moduleContainer"></div>
+            
+            <!-- MODULE CONTENT AREA -->
+            <div class="module-container" id="moduleContainer">
+                <div style="display:flex;align-items:center;justify-content:center;height:100%;min-height:400px;">
+                    <div style="text-align:center;color:var(--text-tertiary);">
+                        <i class="fas fa-feather-alt" style="font-size:4rem;opacity:0.2;margin-bottom:16px;"></i>
+                        <h3>Welcome to Hummingbird ERP</h3>
+                        <p>Select a module from the sidebar</p>
+                    </div>
+                </div>
+            </div>
+            
         </main>
     </div>
     
-    <div class="modal-overlay" id="modalOverlay"><div class="modal-container" id="modalContainer"></div></div>
-    <div class="modal-overlay" id="confirmOverlay" style="display:none;">
-        <div class="modal-container modal-sm">
-            <div class="modal-header"><h3 id="confirmTitle">Confirm</h3><button class="btn-close" onclick="if(window.app) app.closeConfirm();"><i class="fas fa-times"></i></button></div>
-            <div class="modal-body"><p id="confirmMessage">Are you sure?</p></div>
-            <div class="modal-footer"><button class="btn btn-secondary" onclick="if(window.app) app.closeConfirm();">Cancel</button><button class="btn btn-danger" id="confirmBtn" onclick="if(window.app) app.executeConfirm();">Confirm</button></div>
-        </div>
+    <!-- MODAL OVERLAY -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-container" id="modalContainer"></div>
     </div>
     
+    <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toastContainer"></div>
     
+    <!-- CDN LIBRARIES -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     
+    <!-- APPLICATION SCRIPTS -->
     <script src="assets/js/storage.js"></script>
     <script src="assets/js/filters.js"></script>
     <script src="assets/js/actions.js"></script>
@@ -190,19 +296,46 @@
     <script src="assets/js/settings.js"></script>
     <script src="assets/js/app.js"></script>
     
+    <!-- INITIALIZE APP -->
     <script>
         window.isElectron = !!(window.process && window.process.type);
+        
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const loading = document.getElementById('app-loading');
                 const appContainer = document.getElementById('appContainer');
-                if(loading) loading.classList.add('hidden');
-                if(appContainer) appContainer.style.display = 'flex';
-                try { window.app = new HummingbirdERP(); console.log('✅ ERP Ready'); }
-                catch(e) { console.error('❌', e); document.getElementById('moduleContainer').innerHTML = `<div style="padding:40px;text-align:center;"><h3>Error</h3><p>${e.message}</p><button onclick="location.reload()">Reload</button></div>`; }
-                if(loading) setTimeout(() => loading.remove(), 300);
+                
+                if (loading) loading.classList.add('hidden');
+                if (appContainer) appContainer.style.display = 'flex';
+                
+                try {
+                    window.app = new HummingbirdERP();
+                    console.log('✅ Hummingbird ERP Ready');
+                } catch(e) {
+                    console.error('❌ Init Error:', e);
+                    const mc = document.getElementById('moduleContainer');
+                    if (mc) {
+                        mc.innerHTML = `
+                            <div style="padding:60px;text-align:center;">
+                                <i class="fas fa-bug" style="font-size:4rem;color:#ef4444;"></i>
+                                <h2>Initialization Error</h2>
+                                <p>${e.message}</p>
+                                <button onclick="location.reload()" class="btn btn-primary" style="margin-top:16px;">
+                                    <i class="fas fa-redo"></i> Reload
+                                </button>
+                            </div>
+                        `;
+                    }
+                }
+                
+                if (loading) setTimeout(() => { if (loading.parentNode) loading.remove(); }, 300);
             }, 500);
         });
+        
+        window.addEventListener('error', (e) => {
+            console.error('🚨 Error:', e.error);
+        });
     </script>
+    
 </body>
 </html>
